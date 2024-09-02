@@ -1,6 +1,6 @@
 "use client";
 import Homepage from "@/components/homepage/Homepage";
-import { chechSellerPresent } from "@/lib/action"; // Assuming `chechSellerPresent` is a typo and should be `checkSellerPresent`
+import { chechSellerPresent } from "@/lib/action";
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
