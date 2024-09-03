@@ -5,7 +5,7 @@ import type { EcomEscrow } from "./type";
 import { getConnection } from "../src/lib/constants";
 
 export const programId = new PublicKey(
-  "9pJ1GXPbXQPUvzLJsz3HVSLqQ1rEyxauvZDL5e9aBRx8"
+  "EEFaeBjspJjSk1zMW6noT99B9YibP1Y3EXdm5ekuXcQ2"
 );
 
 const connection = getConnection();

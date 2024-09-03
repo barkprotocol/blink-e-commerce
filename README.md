@@ -1,41 +1,43 @@
 # BARK - Buy in a Blink
 
-**Buy in a Blink** is a cutting-edge e-commerce platform built on the Solana blockchain, utilizing the innovative concept of blinks. This platform empowers merchants to create their own stores, list products, and generate custom store links. These links can be shared on platforms like X (formerly Twitter) and will unfurl into a dynamic preview, allowing users to shop directly from the link.
+**Buy in a Blink** is an advanced e-commerce platform built on the Solana blockchain, utilizing the unique concept of "blinks." This platform empowers merchants to create personalized online stores, list products, and generate custom store links that can be shared on social media platforms like X (formerly Twitter). These links unfurl into dynamic previews, allowing users to shop directly from the link.
 
 ## Overview
 
-The BARK Protocol, leveraging the Solana blockchain, has introduced **Solana Blink** to revolutionize online shopping. Solana Blink merges advanced blockchain technology with a headless e-commerce architecture, offering a fast, secure, and highly customizable shopping experience. This platform is part of BARK Protocol's broader mission to integrate decentralized finance (DeFi) and SocialFi solutions, aiming to empower communities and support meaningful charity initiatives.
+The BARK Protocol introduces **Solana Blink**, a blend of blockchain technology and headless e-commerce architecture, designed to offer a fast, secure, and customizable shopping experience. This platform is part of BARK Protocol's broader mission to integrate decentralized finance (DeFi) and SocialFi solutions, empowering communities and supporting charity initiatives.
 
 ## Features
 
-- **Custom Store Creation**: Merchants can easily set up and manage their own online stores.
-- **Product Listing**: Seamlessly add and manage products with details like images, descriptions, and pricing.
-- **Custom Store Links**: Generate unique store links that unfurl into a shopable preview on X.
-- **Escrow Payments**: Payments are securely held in escrow and only released to sellers upon product delivery.
-- **Automated Refunds**: Automatically handles refunds in the event of order cancellations.
+- **Custom Store Creation**: Merchants can set up and manage online stores effortlessly.
+- **Product Listing**: Manage products with comprehensive details such as images, descriptions, and pricing.
+- **Custom Store Links**: Generate unique store links that unfurl into a shoppable preview on X.
+- **Escrow Payments**: Payments are securely held in escrow and released upon product delivery.
+- **Automated Refunds**: Handles refunds automatically if an order is canceled.
 
 ## How It Works
 
-1. **Store Setup**:
-   - Merchants sign up and create a new store.
-   - Add products with comprehensive details, including images, titles, descriptions, prices, and stock quantities.
+### 1. Store Setup
 
-2. **Sharing Store Links**:
-   - Generate a custom link for your store.
-   - Share this link on platforms like X.
-   - The link will unfurl into a preview of your store, enabling users to shop directly.
+- **Sign Up**: Merchants register on the platform and create a new store.
+- **Add Products**: Merchants can list products by adding details like images, titles, descriptions, prices, and stock quantities.
 
-3. **Payment Handling**:
-   - When a purchase is made, the payment is processed through an escrow account.
-   - Funds are held in escrow until the product is delivered.
-   - If an order is canceled, the system automatically initiates a refund to the user.
+### 2. Sharing Store Links
+
+- **Generate Custom Link**: After setting up the store, merchants generate a unique link.
+- **Share on Social Media**: This link can be shared on platforms like X.
+- **Dynamic Preview**: The link unfurls into a store preview, enabling users to shop directly from it.
+
+### 3. Payment Handling
+
+- **Escrow System**: Payments are processed through an escrow account, where funds are held until the product is delivered.
+- **Refunds**: In case of order cancellations, refunds are processed automatically.
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Node.js**: Ensure Node.js is installed on your system.
-- **Solana Wallet**: Required for transactions and managing products.
+- **Node.js**: Ensure Node.js is installed.
+- **Solana Wallet**: Required for managing transactions and products.
 
 ### Installation
 
@@ -62,8 +64,13 @@ The BARK Protocol, leveraging the Solana blockchain, has introduced **Solana Bli
     Create a `.env` file in the root directory and add the necessary environment variables. Example:
 
     ```
+    NEXT_PUBLIC_SOLANA_NETWORK=devnet
+    NEXT_PUBLIC_SOLANA_RPC_URL=https://api.devnet.solana.com
     EDGE_STORE_API_KEY=your-edgestore-api-key
     SOLANA_WALLET_SECRET_KEY=your-solana-wallet-secret-key
+    PAYMENT_PROGRAM_ID=your-payment-program-id
+    POSTGRES_URL=your-postgres-url
+    NEXT_PUBLIC_VERCEL_URL=your-vercel-url
     ```
 
 5. **Start the Development Server**:
@@ -76,25 +83,28 @@ The BARK Protocol, leveraging the Solana blockchain, has introduced **Solana Bli
 
 ## Usage
 
-1. **Creating a Store**:
-   - Log in to your account.
-   - Navigate to the "Create Store" section and provide the required details.
+### Creating a Store
 
-2. **Adding Products**:
-   - Go to the "Manage Products" section.
-   - Add new products with all relevant information.
+- **Log In**: Merchants log into their account.
+- **Create Store**: Navigate to "Create Store" and enter the required details.
 
-3. **Generating Store Link**:
-   - After setting up your store, generate a unique store link.
-   - Share this link on X or other social platforms.
+### Adding Products
 
-4. **Managing Orders**:
-   - View and manage incoming orders from the "Orders" section.
-   - Track order status and handle cancellations as needed.
+- **Manage Products**: Go to the "Manage Products" section to add new products.
+
+### Generating Store Link
+
+- **Generate Link**: After setting up the store, create a unique store link.
+- **Share Link**: Share the link on X or other platforms for users to shop directly.
+
+### Managing Orders
+
+- **Order Management**: View and manage incoming orders in the "Orders" section.
+- **Track Status**: Monitor order status and process cancellations as needed.
 
 ## Contributing
 
-We welcome contributions to enhance Buy in a Blink. To contribute:
+We welcome contributions to improve **Buy in a Blink**. To contribute:
 
 1. **Fork the Repository**.
 2. **Create a New Branch**:
@@ -117,10 +127,11 @@ We welcome contributions to enhance Buy in a Blink. To contribute:
 
 5. **Create a Pull Request**.
 
+## References
+
+- [Prisma Documentation](https://www.prisma.io/docs/getting-started/quickstart)
+- [Prisma Development Video](https://www.youtube.com/watch?v=QXxy8Uv1LnQ)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any queries or support, please reach out to us at [support@buyinablink.com](mailto:support@buyinablink.com).

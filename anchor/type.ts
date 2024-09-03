@@ -2,7 +2,7 @@
  * Program IDL in camelCase format in order to be used in JS/TS.
  *
  * Note that this is only a type helper and is not the actual IDL. The original
- * IDL can be found at `target/idl/ecom_escrow.json`.
+ * IDL can be found at `target/idl/ecommerce_escrow.json`.
  */
 export type EcomEscrow = {
   address: "EEFaeBjspJjSk1zMW6noT99B9YibP1Y3EXdm5ekuXcQ2";
