@@ -8,24 +8,44 @@ import {
   MEMO_PROGRAM_ID,
   NextActionLink,
 } from "@solana/actions";
-import { ComputeBudgetProgram, PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js";
+import {
+  ComputeBudgetProgram,
+  PublicKey,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
+
 import { getConnection } from "@/lib/constants";
 import prisma from "prisma/db";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { username: string } }
+  {
+    params,
+  }: {
+    params: {
+      username: string;
+    };
+  }
 ) => {
   try {
     const seller = await prisma.seller.findUnique({
-      where: { username: params.username },
-      include: { blink: true },
+      where: {
+        username: params.username,
+      },
+      include: {
+        blink: true,
+      },
     });
 
     if (!seller || !seller.blinkCreated || !seller.blink) {
       return Response.json(
-        { message: "User not found" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
+        {
+          message: "User not found",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
       );
     }
 
@@ -36,19 +56,26 @@ export const GET = async (
       description: seller.blink.description,
       links: {
         actions: [
-          { href: `/api/actions/${params.username}?navigate=products`, label: "Checkout to products" },
-          { href: `/api/actions/${params.username}?navigate=orders`, label: "Check your orders" },
+          {
+            href: `/api/actions/${params.username}?navigate=products`,
+            label: "checkout to products",
+          },
+          {
+            href: `/api/actions/${params.username}?navigate=orders`,
+            label: "check your orders",
+          },
         ],
       },
     };
 
-    return Response.json(payload, { headers: ACTIONS_CORS_HEADERS });
+    return Response.json(payload, {
+      headers: ACTIONS_CORS_HEADERS,
+    });
   } catch (error) {
-    console.error("Error in GET request:", error);
-    return Response.json(
-      { message: "An error occurred while processing your request" } as ActionError,
-      { headers: ACTIONS_CORS_HEADERS }
-    );
+    console.log(error);
+    return Response.json(null, {
+      headers: ACTIONS_CORS_HEADERS,
+    });
   }
 };
 
@@ -57,24 +84,27 @@ export const OPTIONS = GET;
 export const POST = async (req: Request, { params }: any) => {
   try {
     const url = new URL(req.url);
-    const route = url.searchParams.get("navigate");
+    let route = url.searchParams.get("navigate");
 
-    if (!route) {
-      return Response.json(
-        { message: "Navigate parameter is required" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
-      );
-    }
+    if (!route) return;
 
     const seller = await prisma.seller.findUnique({
-      where: { username: params.username },
-      include: { blink: true },
+      where: {
+        username: params.username,
+      },
+      include: {
+        blink: true,
+      },
     });
 
     if (!seller || !seller.blinkCreated || !seller.blink) {
       return Response.json(
-        { message: "User not found" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
+        {
+          message: "User not found",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
       );
     }
 
@@ -83,117 +113,148 @@ export const POST = async (req: Request, { params }: any) => {
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
-    } catch {
+    } catch (error) {
       return Response.json(
-        { message: "Invalid public key" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
+        {
+          message: "Invalid public key",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
       );
     }
-
+    console.log("fetch product");
+    /// fetch his products from the db
     const products = await prisma.product.findMany({
-      where: { sellerId: seller.walletAddress },
+      where: {
+        sellerId: seller.walletAddress,
+      },
     });
 
+    console.log(products.length);
+    // fetch his order from db
     const orders = await prisma.order.findMany({
-      where: { buyerWallet: body.account.toBase58(), orderstatus: "PROCESSING" },
-      include: { product: true },
+      where: {
+        buyerWallet: body.account,
+        orderstatus: "PROCESSING",
+      },
+      include: {
+        product: true,
+      },
     });
 
-    let nextLink: NextActionLink;
-
-    if (route === "products") {
-      nextLink = products.length === 0
-        ? {
-            type: "inline",
-            action: {
-              type: "completed",
-              icon: "https://imgs.search.brave.com/mTigptQqts4F_6klqySaDOFw3rN35C_WULPGgqdB1Jg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/NjE5NjkyMS9waG90/by9vcGVuZWQtZW1w/dHktY2FyZGJvYXJk/LWJveC1vbi1ncmVl/bi5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9d1k3eUpiZjFB/WDhuLXNMb2lpRHNI/c1pfS2RBRXpGdW40/RWpoczJnQXZhWT0",
-              title: "Products Empty",
-              description: "This Seller is not selling anything...",
-              label: "Nothing to show here",
+    let nextLink: NextActionLink = {
+      type: "inline",
+      action: {
+        icon: "",
+        description: "",
+        label: "",
+        title: "",
+        type: "action",
+        links: {
+          actions: [],
+        },
+      },
+    };
+    // let nextLink: NextActionLink;
+    if (route == "products") {
+      if (products.length == 0) {
+        nextLink = {
+          type: "inline",
+          action: {
+            type: "completed",
+            icon: "https://imgs.search.brave.com/mTigptQqts4F_6klqySaDOFw3rN35C_WULPGgqdB1Jg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/NjE5NjkyMS9waG90/by9vcGVuZWQtZW1w/dHktY2FyZGJvYXJk/LWJveC1vbi1ncmVl/bi5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9d1k3eUpiZjFB/WDhuLXNMb2lpRHNI/c1pfS2RBRXpGdW40/RWpoczJnQXZhWT0",
+            title: "Products Empty",
+            description: "This Seller is not selling anything .....",
+            label: "nothing to show here",
+          },
+        };
+      } else {
+        nextLink = {
+          type: "inline",
+          action: {
+            icon: seller.blink.icon,
+            description: seller.blink.description,
+            label: seller.blink.label,
+            title: seller.blink.title,
+            type: "action",
+            links: {
+              actions: [
+                {
+                  href: `/api/actions/${params.username}/product/{productId}`,
+                  label: "Select Product",
+                  parameters: [
+                    {
+                      type: "select",
+                      name: "productId",
+                      label: "select the product",
+                      options: products.map((data) => ({
+                        label: `${data.name}`,
+                        value: `${data.id}`,
+                      })),
+                    },
+                  ],
+                },
+              ],
             },
-          }
-        : {
-            type: "inline",
-            action: {
-              icon: seller.blink.icon,
-              description: seller.blink.description,
-              label: seller.blink.label,
-              title: seller.blink.title,
-              type: "action",
-              links: {
-                actions: [
-                  {
-                    href: `/api/actions/${params.username}/product/{productId}`,
-                    label: "Select Product",
-                    parameters: [
-                      {
-                        type: "select",
-                        name: "productId",
-                        label: "Select the product",
-                        options: products.map(product => ({
-                          label: product.name,
-                          value: product.id,
-                        })),
-                      },
-                    ],
-                  },
-                ],
-              },
+          },
+        };
+      }
+    } else if (route == "orders") {
+      if (orders.length == 0) {
+        nextLink = {
+          type: "inline",
+          action: {
+            type: "completed",
+            icon: "https://imgs.search.brave.com/mTigptQqts4F_6klqySaDOFw3rN35C_WULPGgqdB1Jg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/NjE5NjkyMS9waG90/by9vcGVuZWQtZW1w/dHktY2FyZGJvYXJk/LWJveC1vbi1ncmVl/bi5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9d1k3eUpiZjFB/WDhuLXNMb2lpRHNI/c1pfS2RBRXpGdW40/RWpoczJnQXZhWT0",
+            title: "You dont have any orders",
+            description: "please buy from someones invenotory to check orders",
+            label: "nothing to show here",
+          },
+        };
+      } else {
+        nextLink = {
+          type: "inline",
+          action: {
+            icon: seller.blink.icon,
+            description:
+              "orders with only processing can be viewed here, and can be cancelled",
+            label: "you can check your processing orders and can cancel them",
+            title: "Check out your orders",
+            type: "action",
+            links: {
+              // actions: orders.map((data) => ({
+              //   href: `/api/actions/${params.username}/orders/${data.id}`,
+              //   label: `${data.product.name}`,
+              // })),
+              actions: [
+                {
+                  href: `/api/actions/${params.username}/orders/{orderid}`,
+                  label: "Select Order",
+                  parameters: [
+                    {
+                      type: "select",
+                      name: "orderid",
+                      label: "select orders",
+                      options: orders.map((data) => ({
+                        label: `${data.product.name}`,
+                        value: `${data.id}`,
+                      })),
+                    },
+                  ],
+                },
+              ],
             },
-          };
-    } else if (route === "orders") {
-      nextLink = orders.length === 0
-        ? {
-            type: "inline",
-            action: {
-              type: "completed",
-              icon: "https://imgs.search.brave.com/mTigptQqts4F_6klqySaDOFw3rN35C_WULPGgqdB1Jg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/NjE5NjkyMS9waG90/by9vcGVuZWQtZW1w/dHktY2FyZGJvYXJk/LWJveC1vbi1ncmVl/bi5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9d1k3eUpiZjFB/WDhuLXNMb2lpRHNI/c1pfS2RBRXpGdW40/RWpoczJnQXZhWT0",
-              title: "You don't have any orders",
-              description: "Please buy from someone's inventory to check orders",
-              label: "Nothing to show here",
-            },
-          }
-        : {
-            type: "inline",
-            action: {
-              icon: seller.blink.icon,
-              description: "Orders with only processing status can be viewed here and can be cancelled",
-              label: "You can check your processing orders and cancel them",
-              title: "Check out your orders",
-              type: "action",
-              links: {
-                actions: [
-                  {
-                    href: `/api/actions/${params.username}/orders/{orderid}`,
-                    label: "Select Order",
-                    parameters: [
-                      {
-                        type: "select",
-                        name: "orderid",
-                        label: "Select orders",
-                        options: orders.map(order => ({
-                          label: order.product.name,
-                          value: order.id,
-                        })),
-                      },
-                    ],
-                  },
-                ],
-              },
-            },
-          };
-    } else {
-      return Response.json(
-        { message: "Invalid navigate parameter" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
-      );
+          },
+        };
+      }
     }
-
     const connection = getConnection();
     const transaction = new Transaction();
     transaction.add(
-      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 5 }),
+      ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: 5,
+      }),
       new TransactionInstruction({
         programId: new PublicKey(MEMO_PROGRAM_ID),
         keys: [],
@@ -202,22 +263,33 @@ export const POST = async (req: Request, { params }: any) => {
     );
 
     transaction.feePayer = account;
-    transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-
+    transaction.recentBlockhash = (
+      await connection.getLatestBlockhash()
+    ).blockhash;
+    console.log("in here before ceate reposonse");
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
-        message: "All good",
-        links: { next: nextLink },
+        message: "all good",
+        links: {
+          //@ts-ignore
+          next: nextLink,
+        },
       },
     });
-
-    return Response.json(payload, { headers: ACTIONS_CORS_HEADERS });
+    console.log("response returned", nextLink);
+    return Response.json(payload, {
+      headers: ACTIONS_CORS_HEADERS,
+    });
   } catch (error) {
-    console.error("Error in POST request:", error);
+    console.log("inside error");
     return Response.json(
-      { message: "An error occurred while processing your request" } as ActionError,
-      { headers: ACTIONS_CORS_HEADERS }
+      {
+        message: "something went wrong",
+      } as ActionError,
+      {
+        headers: ACTIONS_CORS_HEADERS,
+      }
     );
   }
 };

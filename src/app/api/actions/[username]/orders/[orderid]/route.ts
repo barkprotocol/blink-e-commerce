@@ -20,45 +20,65 @@ const headers = createActionHeaders();
 
 export const OPTIONS = () => {
   return Response.json(
-    { message: "" } as ActionError,
-    { headers }
+    {
+      message: "",
+    } as ActionError,
+    {
+      headers,
+    }
   );
 };
 
 export const POST = async (
   req: Request,
-  { params }: { params: { username: string; orderid: string } }
+  {
+    params,
+  }: {
+    params: {
+      username: string;
+      orderid: string;
+    };
+  }
 ) => {
   try {
-    // Parse request body
+    const url = new URL(req.url);
     const body: ActionPostRequest = await req.json();
 
-    // Validate and create account PublicKey
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
     } catch (error) {
       return Response.json(
-        { message: "Invalid public key" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
+        {
+          message: "Invalid public key",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
       );
     }
-
-    // Fetch order details from the database
+    //do a db operation to fetch the order id details
     const order = await prisma.order.findUnique({
-      where: { id: params.orderid },
-      include: { product: true },
+      where: {
+        id: params.orderid,
+      },
+      include: {
+        product: true,
+      },
     });
-
+    console.log("inside order", order);
     if (!order) {
       return Response.json(
-        { message: "Order not found" } as ActionError,
-        { headers }
+        {
+          message: "Order not present",
+        } as ActionError,
+        {
+          headers,
+        }
       );
     }
 
-    // Create next action link
-    const next: NextActionLink = {
+    let next: NextActionLink = {
       type: "inline",
       action: {
         icon: order.product.imageUrl,
@@ -77,11 +97,13 @@ export const POST = async (
       },
     };
 
-    // Create and sign Solana transaction
     const connection = getConnection();
+
     const transaction = new Transaction();
     transaction.add(
-      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 5000 }),
+      ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: 5000,
+      }),
       new TransactionInstruction({
         programId: new PublicKey(MEMO_PROGRAM_ID),
         keys: [],
@@ -90,22 +112,30 @@ export const POST = async (
     );
 
     transaction.feePayer = account;
-    transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    transaction.recentBlockhash = (
+      await connection.getLatestBlockhash()
+    ).blockhash;
 
-    // Create response payload
     const payload = await createPostResponse({
       fields: {
         transaction,
-        links: { next },
+        links: {
+          next,
+        },
       },
     });
 
-    return Response.json(payload, { headers });
+    return Response.json(payload, {
+      headers,
+    });
   } catch (error) {
-    console.error("Error in POST request:", error);
     return Response.json(
-      { message: "An error occurred while processing your request" } as ActionError,
-      { headers }
+      {
+        message: "something went wrong",
+      } as ActionError,
+      {
+        headers,
+      }
     );
   }
 };

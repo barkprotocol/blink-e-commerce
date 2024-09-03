@@ -13,8 +13,10 @@ import { program } from "anchor/setup";
 const headers = createActionHeaders();
 
 export const OPTIONS = () => {
-  return Response.json(
-    { message: "" } as ActionError,
+  return new Response(
+    JSON.stringify({
+      message: "",
+    } as ActionError),
     { headers }
   );
 };
@@ -24,54 +26,50 @@ export const POST = async (
   { params }: { params: { username: string; orderid: string } }
 ) => {
   try {
-    console.log("Handling refund request");
+    console.log("inside refund button");
 
-    // Parse request body
     const body: ActionPostRequest = await req.json();
+    console.log(params);
 
-    // Validate and create PublicKey for account
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
-    } catch (error) {
-      return Response.json(
-        { message: 'Invalid "account" provided' } as ActionError,
-        { headers }
-      );
+    } catch (err) {
+      throw new Error('Invalid "account" provided');
     }
 
-    console.log("Account PublicKey:", account.toBase58());
+    console.log(account);
 
-    // Fetch order details from the database
     const order = await prisma.order.findUnique({
       where: { id: params.orderid },
     });
 
-    console.log("Fetched order:", order);
+    console.log("order is", order);
 
-    if (!order || order.orderstatus !== "PROCESSING") {
-      return Response.json(
-        { message: "Order not found or not in a refundable state" } as ActionError,
+    if (!order || order.orderStatus !== "PROCESSING") {
+      return new Response(
+        JSON.stringify({
+          message: "Order is not in processing state or does not exist",
+        } as ActionError),
         { headers }
       );
     }
 
-    // Generate program addresses
-    const message = trimUuidToHalf(order.id);
-    const orderPda = PublicKey.findProgramAddressSync(
+    let message = trimUuidToHalf(order.id);
+    console.log("here 1");
+
+    let [orderPda] = PublicKey.findProgramAddressSync(
       [Buffer.from("order"), new PublicKey(body.account).toBuffer(), Buffer.from(message)],
       program.programId
-    )[0];
+    );
 
-    const orderVault = PublicKey.findProgramAddressSync(
+    console.log("here 2");
+
+    let [orderVault] = PublicKey.findProgramAddressSync(
       [Buffer.from("orderVault"), orderPda.toBuffer()],
       program.programId
-    )[0];
+    );
 
-    console.log("Order PDA:", orderPda.toBase58());
-    console.log("Order Vault PDA:", orderVault.toBase58());
-
-    // Create transaction instruction for canceling the order
     const anchorInstruction = await program.methods
       .cancelOrder(message)
       .accountsPartial({
@@ -82,14 +80,11 @@ export const POST = async (
       })
       .instruction();
 
-    // Prepare transaction
     const connection = getConnection();
     const transaction = new Transaction().add(anchorInstruction);
-
     transaction.feePayer = account;
     transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
-    // Create and return response payload
     const payload = await createPostResponse({
       fields: {
         transaction,
@@ -103,11 +98,13 @@ export const POST = async (
       },
     });
 
-    return Response.json(payload, { headers });
+    return new Response(JSON.stringify(payload), { headers });
   } catch (error) {
-    console.error("Error processing refund request:", error);
-    return Response.json(
-      { message: "An error occurred while processing the refund" } as ActionError,
+    console.log("error is", error);
+    return new Response(
+      JSON.stringify({
+        message: "Something went wrong",
+      } as ActionError),
       { headers }
     );
   }

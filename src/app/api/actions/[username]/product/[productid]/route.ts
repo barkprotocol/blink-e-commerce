@@ -12,6 +12,7 @@ import {
   Transaction,
   TransactionInstruction,
 } from "@solana/web3.js";
+
 import { getConnection } from "@/lib/constants";
 import prisma from "prisma/db";
 
@@ -33,38 +34,47 @@ export const POST = async (
   }
 ) => {
   try {
-    console.log("Processing POST request with product ID:", params.productid);
-    
-    // Parse request body
+    const url = new URL(req.url);
+    console.log("inside post with product id", req.url);
+    console.log(params);
+    //get the product details
     const body: ActionPostRequest = await req.json();
+    console.log(body);
     let account: PublicKey;
-    
     try {
       account = new PublicKey(body.account);
     } catch (error) {
       return Response.json(
-        { message: "Invalid public key" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
+        {
+          message: "Invalid public key",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
       );
     }
-    
-    // Fetch product details from the database
+
     const product = await prisma.product.findUnique({
-      where: { id: params.productid },
+      where: {
+        id: params.productid,
+      },
     });
 
     if (!product) {
       return Response.json(
-        { message: "Product not found" } as ActionError,
-        { headers: ACTIONS_CORS_HEADERS }
+        { message: "error while fetchingdata" } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
       );
     }
-
-    // Create transaction
     const connection = getConnection();
+
     const transaction = new Transaction();
     transaction.add(
-      ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 5000 }),
+      ComputeBudgetProgram.setComputeUnitPrice({
+        microLamports: 5000,
+      }),
       new TransactionInstruction({
         programId: new PublicKey(MEMO_PROGRAM_ID),
         keys: [],
@@ -73,56 +83,61 @@ export const POST = async (
     );
 
     transaction.feePayer = account;
-    transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    transaction.recentBlockhash = (
+      await connection.getLatestBlockhash()
+    ).blockhash;
 
-    // Prepare the next action link
     let next: NextActionLink = {
       type: "inline",
       action: {
-        icon: product.imageUrl || "https://avatars.githubusercontent.com/u/37742218?v=4",
-        description: `${product.description}, Available stock: ${product.stock}` || "No description available",
-        label: product.label || "No label available",
-        title: product.title || "No title available",
+        icon:
+          product?.imageUrl ||
+          "https://avatars.githubusercontent.com/u/37742218?v=4",
+        description:
+          `${product?.description}, Availale stock ${product?.stock}` ||
+          "asdasdasd",
+        label: product?.label || "asdasdasd",
+        title: `${product?.title}` || "asdasdasdasdasd",
         type: "action",
         links: {
           actions: [
             {
-              label: `Purchase product for ${product.price || "1"} SOL`,
+              label: `Purchase product for ${product?.price || "1"} SOL`,
               href: `/api/actions/${params.username}/product/${params.productid}/purchase?name={name}&email={email}&address={address}&state={state}&zipcode={zipcode}&city={city}&amount=${product.price}`,
               parameters: [
                 {
                   name: "name",
-                  label: "Enter your name",
+                  label: "enter your name",
                   required: true,
-                  patternDescription: "Ex: Joey",
+                  patternDescription: "Ex: JOEY",
                 },
                 {
                   name: "email",
-                  label: "Enter your email",
+                  label: "enter your email",
                   required: true,
                   patternDescription: "Ex: hello@xxx.com",
                 },
                 {
                   name: "address",
-                  label: "Enter your address",
+                  label: "enter your address",
                   required: true,
-                  patternDescription: "Ex: Woodland Street",
+                  patternDescription: "Ex: woodland steeet",
                 },
                 {
                   name: "state",
-                  label: "Enter your state",
+                  label: "enter your state",
                   required: true,
-                  patternDescription: "Ex: Ohio",
+                  patternDescription: "Ex: ohio",
                 },
                 {
                   name: "city",
-                  label: "Enter your city",
+                  label: "enter your city",
                   required: true,
                   patternDescription: "Ex: Cleveland",
                 },
                 {
                   name: "zipcode",
-                  label: "Enter your zip code",
+                  label: "enter your zip code",
                   required: true,
                   patternDescription: "Ex: 44129",
                 },
@@ -133,22 +148,28 @@ export const POST = async (
       },
     };
 
-    // Create and return the response
     const payload = await createPostResponse({
       fields: {
         transaction,
         message: "",
-        links: { next },
+        links: {
+          next,
+        },
       },
     });
 
-    return Response.json(payload, { headers: ACTIONS_CORS_HEADERS });
-
+    return Response.json(payload, {
+      headers: ACTIONS_CORS_HEADERS,
+    });
   } catch (error) {
-    console.error("Error processing request:", error);
+    console.log(error);
     return Response.json(
-      { message: "Error processing request" } as ActionError,
-      { headers: ACTIONS_CORS_HEADERS }
+      {
+        message: "Error",
+      } as ActionError,
+      {
+        headers: ACTIONS_CORS_HEADERS,
+      }
     );
   }
 };
