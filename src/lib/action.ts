@@ -7,32 +7,29 @@ import {
   SellerInput,
   UserInput,
 } from "./validation";
-import {
-  subDays,
-  startOfDay,
-  endOfDay,
-  format,
-  eachDayOfInterval,
-} from "date-fns";
+
+import { format, eachDayOfInterval } from "date-fns";
 
 export const createSellerProduct = async (
-  sellerWallet: string,
+  sellerWalet: string,
   productData: ProductInput
 ) => {
   try {
     const seller = await prisma.seller.findUnique({
       where: {
-        walletAddress: sellerWallet,
+        walletAddress: sellerWalet,
       },
     });
 
     if (!seller) {
       return {
-        message: "Seller not present; cannot add the product.",
+        msg: "seller not present cant add the product",
+        err: true,
+        product: null,
       };
     }
 
-    const product = await prisma.product.create({
+    let product = await prisma.product.create({
       data: {
         ...productData,
         sellerId: seller.walletAddress,
@@ -40,15 +37,15 @@ export const createSellerProduct = async (
     });
 
     return {
-      msg: "Product created successfully",
-      product,
+      msg: "product created sucessfully",
       err: false,
+      product,
     };
   } catch (error) {
-    console.error("Error creating product:", error);
     return {
-      msg: "Something went wrong while creating the product.",
+      msg: "something went wrong while creating product",
       err: true,
+      product: null,
     };
   }
 };
@@ -61,9 +58,7 @@ export const createSeller = async (sellerData: SellerInput) => {
       },
     });
 
-    if (sellerExists) {
-      return { msg: "Wallet address already taken", err: true };
-    }
+    if (sellerExists) return { msg: "username already taken", err: true };
 
     const seller = await prisma.seller.create({
       data: sellerData,
@@ -75,9 +70,8 @@ export const createSeller = async (sellerData: SellerInput) => {
       err: false,
     };
   } catch (error) {
-    console.error("Error creating seller account:", error);
     return {
-      msg: "Something went wrong while creating the seller account.",
+      msg: "something went wrong while creting seller account",
       err: true,
     };
   }
@@ -86,11 +80,10 @@ export const createSeller = async (sellerData: SellerInput) => {
 export const doNothing = async () => {
   try {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log("Inside server action");
-    return { msg: "Hello" };
+    console.log("inside server action");
+    return { msg: "hello" };
   } catch (error) {
-    console.error("Error in doNothing function:", error);
-    return { msg: "Error", err: true };
+    return { msg: "error", err: true };
   }
 };
 
@@ -101,10 +94,9 @@ export const createUser = async (userData: UserInput) => {
         userWallet: userData.walletAddress,
       },
     });
-
     if (user) {
       return {
-        msg: "User already present",
+        msg: "user already present",
         err: true,
       };
     }
@@ -123,9 +115,8 @@ export const createUser = async (userData: UserInput) => {
       newUser,
     };
   } catch (error) {
-    console.error("Error creating user:", error);
     return {
-      msg: "Error",
+      msg: "error",
       err: true,
     };
   }
@@ -139,13 +130,11 @@ export const createSellerBlink = async (sellerBlinkData: SellerBlinkInput) => {
       },
     });
 
-    if (!seller) {
-      return { msg: "First create a seller account", err: true };
-    }
+    if (!seller) return { msg: "first create a seller account", err: true };
 
     if (seller.blinkCreated) {
       return {
-        msg: "Blink already created; update if needed.",
+        msg: "You've already created your blink go and update",
         err: true,
       };
     }
@@ -164,13 +153,12 @@ export const createSellerBlink = async (sellerBlinkData: SellerBlinkInput) => {
     });
 
     return {
-      msg: "Blink created for the user",
+      msg: "Created blink for the user",
       data: sellerBlink,
       err: false,
     };
   } catch (error) {
-    console.error("Error creating blink:", error);
-    return { msg: "Something went wrong while creating blink", err: true };
+    return { msg: "something went wrong while creating blink", err: true };
   }
 };
 
@@ -178,11 +166,10 @@ export const checkSellerUsername = async (username?: string) => {
   try {
     if (!username) {
       return {
-        msg: "Username input required",
+        msg: "username inpur required",
         err: true,
       };
     }
-
     const data = await prisma.seller.findUnique({
       where: {
         username,
@@ -191,34 +178,32 @@ export const checkSellerUsername = async (username?: string) => {
 
     if (data) {
       return {
-        msg: "Username already taken",
+        msg: "username already taken",
         err: true,
       };
     }
 
     return {
-      msg: "Username not taken",
+      msg: "Username not created yet",
       err: false,
     };
   } catch (error) {
-    console.error("Error checking seller username:", error);
     return {
-      msg: "Something went wrong",
+      msg: "SOmething went wrong",
       err: true,
     };
   }
 };
 
-export const checkSellerPresent = async (address: string) => {
+export const chechSellerPresent = async (address: string) => {
   try {
     if (!address) {
       return {
-        msg: "Address input required",
+        msg: "username inpur required",
         err: true,
-        user: false,
+        user: null,
       };
     }
-
     const data = await prisma.seller.findUnique({
       where: {
         walletAddress: address,
@@ -227,21 +212,20 @@ export const checkSellerPresent = async (address: string) => {
 
     if (!data) {
       return {
-        msg: "Seller not present",
-        user: false,
+        msg: "seller not present",
+        user: null,
         err: false,
       };
     }
 
     return {
-      msg: "Seller present",
+      msg: "seller  present",
       err: false,
       user: data,
     };
   } catch (error) {
-    console.error("Error checking if seller is present:", error);
     return {
-      msg: "Something went wrong",
+      msg: "SOmething went wrong",
       err: true,
     };
   }
@@ -257,18 +241,17 @@ export const getTheUser = async (address: string) => {
 
     if (!user) {
       return {
-        msg: "No seller present in the database",
+        msg: "There is no seller present in the db",
         err: true,
       };
     }
 
     return {
-      msg: "Successfully fetched",
+      msg: "successfully fetched",
       err: false,
       data: user,
     };
   } catch (error) {
-    console.error("Error fetching seller:", error);
     return {
       msg: "Something went wrong",
       err: true,
@@ -286,21 +269,20 @@ export const getSellerBlink = async (address: string) => {
 
     if (!data) {
       return {
-        msg: "Seller hasn't created a blink yet",
+        msg: "seller havent created a blink yet",
         err: true,
         blink: null,
       };
     }
 
     return {
-      msg: "Successfully fetched",
+      msg: "Sucessfully fetched",
       err: false,
       blink: data,
     };
   } catch (error) {
-    console.error("Error fetching seller blink:", error);
     return {
-      msg: "Something went wrong",
+      msg: "SOmething went wrong",
       err: true,
       blink: null,
     };
@@ -328,42 +310,40 @@ export const updateSellerBlink = async (data: UpdateInput, address: string) => {
         err: true,
       };
     }
-
     const updatedBlink = await prisma.sellerBlink.update({
       where: {
         sellerWallet: address,
       },
       data,
     });
+    console.log(updatedBlink);
 
     return {
-      msg: "Successfully updated",
+      msg: "Successfully Updated",
       err: false,
     };
   } catch (error) {
-    console.error("Error updating seller blink:", error);
+    console.log(error);
     return {
       msg: "Update went wrong",
-      err: true,
+      err: false,
     };
   }
 };
 
-export const getAllProducts = async (pubkey: string) => {
+export const getAllProducts = async (pubkey: any) => {
   try {
     const products = await prisma.product.findMany({
       where: {
         sellerId: pubkey,
       },
     });
-
     return {
-      msg: "Successfully fetched",
+      msg: "successfully fetched",
       err: false,
       data: products,
     };
   } catch (error) {
-    console.error("Error fetching products:", error);
     return {
       msg: "Something went wrong",
       err: true,
@@ -384,7 +364,7 @@ export const editProduct = async (
 
     if (!product) {
       return {
-        msg: "Product not present",
+        msg: "product not present",
         err: true,
       };
     }
@@ -397,12 +377,11 @@ export const editProduct = async (
     });
 
     return {
-      msg: "Product updated successfully",
+      msg: "product updated successfully",
       err: false,
       data: updatedProduct,
     };
   } catch (error) {
-    console.error("Error updating product:", error);
     return {
       msg: "Something went wrong",
       err: true,
@@ -410,25 +389,25 @@ export const editProduct = async (
   }
 };
 
-export const updateOrderStatus = async (orderId: string, newStatus: string) => {
+export const updateOrderStatus = async (orderId: string, newStatus: any) => {
   try {
     await prisma.order.update({
       where: {
-        id: orderId,
+        id: orderId.toString(),
       },
       data: {
-        orderstatus: newStatus,
+        orderstatus: newStatus as any,
       },
     });
-
+    console.log(orderId);
+    // revalidatePath("/dashboard/orders")
     return {
       msg: "Order status updated successfully",
       err: false,
     };
-  } catch (error) {
-    console.error("Error updating order status:", error);
+  } catch (e) {
     return {
-      msg: `Something went wrong: ${error.message}`,
+      msg: `Something went wrong, ${e}`,
       err: true,
     };
   }
@@ -447,108 +426,113 @@ export const getOrderBySeller = async (sellerId: string) => {
         product: true,
       },
     });
-
     return {
-      msg: "Successfully fetched",
+      msg: "successfully fetched",
       err: false,
       data: orders,
     };
-  } catch (error) {
-    console.error("Error fetching orders by seller:", error);
+  } catch (e) {
     return {
       msg: "Something went wrong",
       err: true,
     };
   }
 };
-
 export const deleteProduct = async (productId: string) => {
   try {
-    await prisma.product.delete({
+    let data = await prisma.product.delete({
       where: {
         id: productId,
       },
     });
 
+    console.log(data);
     return {
-      msg: "Product deleted successfully",
+      msg: "product deleted successfully",
       err: false,
     };
   } catch (error) {
-    console.error("Error deleting product:", error);
+    console.log(error);
+    //@ts-ignore
+    if (error.code == "P2003") {
+      return {
+        msg: "Not able to delete because there are orders associated with this product",
+        err: true,
+      };
+    }
+
     return {
-      msg: "Something went wrong",
+      msg: "something went wrong",
       err: true,
     };
   }
 };
 
 export async function getSellerOrdersOf7Days(sellerAddress: string) {
-  try {
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(endDate.getDate() - 6); // 7 days including today
+  // Get today's date and the date 7 days ago
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(endDate.getDate() - 6); // 7 days including today
 
-    const result: { [key: string]: { count: number; totalPrice: number } } = {};
-    const days = eachDayOfInterval({ start: startDate, end: endDate });
+  // Initialize the result object with zero counts for each of the last 7 days
+  const result: { [key: string]: { count: number; totalPrice: number } } = {};
+  const days = eachDayOfInterval({ start: startDate, end: endDate });
 
-    days.forEach((day) => {
-      const formattedDate = format(day, "yyyy-MM-dd");
-      result[formattedDate] = { count: 0, totalPrice: 0 };
-    });
+  days.forEach((day) => {
+    const formattedDate = format(day, "yyyy-MM-dd");
+    result[formattedDate] = { count: 0, totalPrice: 0 };
+  });
 
-    const orders = await prisma.order.findMany({
-      where: {
-        sellerId: sellerAddress,
-        createdAt: {
-          gte: startDate,
-          lte: endDate,
-        },
+  // Fetch orders for the specific seller within the last 7 days
+  const orders = await prisma.order.findMany({
+    where: {
+      sellerId: sellerAddress,
+      createdAt: {
+        gte: startDate,
+        lte: endDate,
       },
-      include: {
-        product: true,
-      },
-    });
+    },
+    include: {
+      product: true,
+    },
+  });
 
-    orders.forEach((order) => {
-      const orderDate = format(order.createdAt, "yyyy-MM-dd");
-      const productPrice = parseFloat(order.product.price);
+  // Process each order to update counts and total prices
+  orders.forEach((order) => {
+    const orderDate = format(order.createdAt, "yyyy-MM-dd"); // Format date to YYYY-MM-DD
+    const productPrice = parseFloat(order.product.price); // Parse the product price
 
-      if (!result[orderDate]) {
-        result[orderDate] = { count: 0, totalPrice: 0 };
-      }
+    if (!result[orderDate]) {
+      result[orderDate] = { count: 0, totalPrice: 0 };
+    }
 
-      result[orderDate].count += 1;
-      result[orderDate].totalPrice += productPrice;
-    });
+    // Increment the order count and total price for the respective day
+    result[orderDate].count += 1;
+    result[orderDate].totalPrice += productPrice;
+  });
 
-    const totalOrders = Object.values(result).reduce(
-      (sum, day) => sum + day.count,
-      0
-    );
-    const finalTotalPrice = Object.values(result).reduce(
-      (sum, day) => sum + day.totalPrice,
-      0
-    );
+  // Calculate the total number of orders and the final total price for the entire week
+  const totalOrders = Object.values(result).reduce(
+    (sum, day) => sum + day.count,
+    0
+  );
+  const finalTotalPrice = Object.values(result).reduce(
+    (sum, day) => sum + day.totalPrice,
+    0
+  );
 
-    const formattedResult = Object.entries(result).map(([date, data]) => ({
-      date,
-      orders: data.count,
-      totalPrice: data.totalPrice,
-    }));
+  // Convert result object to the desired format for daily counts
+  const formattedResult = Object.entries(result).map(([date, data]) => ({
+    date,
+    orders: data.count,
+    totalPrice: data.totalPrice,
+  }));
 
-    return {
-      totalOrders,
-      dailyCounts: formattedResult,
-      finalTotalPrice,
-    };
-  } catch (error) {
-    console.error("Error fetching seller orders of the last 7 days:", error);
-    return {
-      msg: "Something went wrong",
-      err: true,
-    };
-  }
+  return {
+    totalOrders,
+    dailyCounts: formattedResult,
+    finalTotalPrice,
+  };
 }
 
 export async function getRecentOrders(address: string) {
@@ -569,7 +553,7 @@ export async function getRecentOrders(address: string) {
       data: orders,
     };
   } catch (error) {
-    console.error("Error fetching recent orders:", error);
+    console.error(error);
     return {
       msg: "Error occurred",
       err: true,

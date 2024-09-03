@@ -1,15 +1,4 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/edgestore/[...edgestore]/route": "app/api/edgestore/[...edgestore]/route.js",
-  "/page": "app/page.js",
-  "/username/page": "app/username/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/api/actions/[username]/orders/[orderid]/refund/route": "app/api/actions/[username]/orders/[orderid]/refund/route.js",
-  "/api/actions/[username]/product/[productid]/purchase/route": "app/api/actions/[username]/product/[productid]/purchase/route.js",
-  "/api/actions/[username]/product/[productid]/route": "app/api/actions/[username]/product/[productid]/route.js",
-  "/api/actions/[username]/orders/[orderid]/route": "app/api/actions/[username]/orders/[orderid]/route.js",
-  "/api/actions/[username]/route": "app/api/actions/[username]/route.js",
-  "/api/actions/refunddone/route": "app/api/actions/refunddone/route.js",
-  "/actions.json/route": "app/actions.json/route.js",
-  "/api/actions/purchasedone/route": "app/api/actions/purchasedone/route.js"
+  "/page": "app/page.js"
 }

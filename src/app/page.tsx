@@ -1,46 +1,42 @@
 "use client";
 import Homepage from "@/components/homepage/Homepage";
-import { chechSellerPresent } from "@/lib/action";
+import { chechSellerPresent, checkSellerUsername } from "@/lib/action";
 
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function Home() {
   const { publicKey, connected } = useWallet();
   const router = useRouter();
-
-  const fetchUsername = useCallback(async (publicKey: string) => {
-    try {
-      const data = await chechSellerPresent(publicKey); // Or checkSellerPresent if that's the intended function name
-      return data;
-    } catch (error) {
-      console.error("Error fetching username:", error);
-      toast.error("An error occurred while checking the seller status.");
-      return { err: "An error occurred", user: null }; // Adjust according to your error handling strategy
-    }
-  }, []);
+  const fetchUsername = async (publicKey: string) => {
+    const data = await chechSellerPresent(publicKey);
+    return data;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (connected && publicKey) {
         const value = await fetchUsername(publicKey.toString());
-        if (!value.err) {
-          if (!value.user) {
-            router.push("/username");
-            toast.info("Create username");
-          } else {
-            router.push("/dashboard");
-            toast.info("Logged in successfully");
-          }
-        } else {
-          toast.warning(value.err);
+        console.log(value);
+        if (!value.err && !value.user) {
+          localStorage.setItem("username", "");
+          router.push("/username");
+          toast.info("create username");
+          return;
         }
+        if (!value.err && value.user) {
+          const username = value.user.username;
+          localStorage.setItem("username", username);
+          router.push("/dashboard");
+          toast.info("logged in successfully");
+          return;
+        }
+        toast.warning(value.err);
       }
     };
     fetchData();
-  }, [publicKey, connected, fetchUsername, router]);
-
+  }, [publicKey, connected, router]);
   return <Homepage />;
 }

@@ -1,5 +1,6 @@
 "use client";
 import { ReactNode } from "react";
+
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./theme-provider";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -8,11 +9,7 @@ import { EdgeStoreProvider } from "./edgestore";
 
 const queryClient = new QueryClient();
 
-interface ProvidersProps {
-  children: ReactNode;
-}
-
-export const Providers = ({ children }: ProvidersProps) => {
+export const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Toaster position="top-center" richColors closeButton />
