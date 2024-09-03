@@ -1,7 +1,7 @@
 import { IdlAccounts, Program } from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
 import idl from "./idl.json";
-import type { EcomEscrow } from "./type";
+import type { EcommerceEscrow } from "./type";
 import { getConnection } from "../src/lib/constants";
 
 export const programId = new PublicKey(
@@ -10,8 +10,8 @@ export const programId = new PublicKey(
 
 const connection = getConnection();
 
-export const program = new Program(idl as EcomEscrow, {
+export const program = new Program(idl as EcommerceEscrow, {
   connection,
 });
 
-export type todoState = IdlAccounts<EcomEscrow>["order"];
+export type todoState = IdlAccounts<EcommerceEscrow>["order"];

@@ -4,10 +4,10 @@
  * Note that this is only a type helper and is not the actual IDL. The original
  * IDL can be found at `target/idl/ecommerce_escrow.json`.
  */
-export type EcomEscrow = {
+export type EcommerceEscrow = {
   address: "EEFaeBjspJjSk1zMW6noT99B9YibP1Y3EXdm5ekuXcQ2";
   metadata: {
-    name: "ecomEscrow";
+    name: "EcommerceEscrow";
     version: "0.1.0";
     spec: "0.1.0";
     description: "Created with Anchor";

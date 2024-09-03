@@ -4,7 +4,7 @@ import CreateUsername from "@/components/createusername/CreateUsername";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Loading from "@/components/Loading"; // Assuming you have a Loading component
+import Loading from "@/components/ui/loading";
 
 export default function Page() {
   const { publicKey, connected } = useWallet();

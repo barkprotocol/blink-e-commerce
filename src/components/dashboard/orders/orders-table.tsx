@@ -33,7 +33,7 @@ import { toast } from "sonner";
 import { OrderStatus, User, Product } from "@prisma/client";
 import { AnchorProvider, Program } from "@coral-xyz/anchor";
 import IDL from "../../../../anchor/idl.json";
-import { EcomEscrow } from "../../../../anchor/type";
+import { EcommerceEscrow } from "../../../../anchor/type";
 import { PublicKey } from "@solana/web3.js";
 import { trimUuidToHalf } from "@/lib/helpers";
 
@@ -67,7 +67,7 @@ export default function Orders() {
   const { connection } = useConnection();
   const anchorWallet = useAnchorWallet();
   const provider = anchorWallet && new AnchorProvider(connection, anchorWallet);
-  const program = new Program<EcomEscrow>(idl as EcomEscrow, provider);
+  const program = new Program<EcommerceEscrow>(idl as EcommerceEscrow, provider);
 
   useEffect(() => {
     const fetchOrders = async () => {

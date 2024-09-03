@@ -1,115 +1,121 @@
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url      = env("DATABASE_URL")
 }
 
 model Seller {
-  id             String    @id @default(uuid()) @unique
-  username       String    @unique
-  walletAddress  String    @unique
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  products       Product[] 
-  blink          SellerBlink?
-  blinkCreated   Boolean   @default(false)
-  payments       ProductPurchaseTransaction[]
-  orders         Order[]
+  id           String    @id @default(uuid()) @unique
+  username     String    @unique
+  walletAddress String   @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  products     Product[] 
+  blink        SellerBlink?
+  blinkCreated Boolean @default(false)
+  Payments ProductPurchaseTransaction[]
+  order   Order[]
 
   @@index([walletAddress])
   @@index([username])
 }
 
 model Product {
-  id            String   @id @default(uuid()) 
-  name          String
-  title         String
-  description   String
-  label         String
-  imageUrl      String
-  price         Decimal  // Numeric type for precise values
-  stock         Int      // Integer type for stock quantity
-  sellerId      String   
-  seller        Seller   @relation(fields: [sellerId], references: [walletAddress]) 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id          String   @id @default(uuid()) 
+  name        String
+  title       String
+  description String
+  label       String
+  imageUrl    String
+  price       String //price
+  stock       String //stock limit
+  sellerId    String   
+  seller      Seller   @relation(fields: [sellerId], references: [walletAddress]) 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  purchases     ProductPurchaseTransaction[]
-  orders        Order[]
+  purchase  ProductPurchaseTransaction[]
+  order     Order[]
 
   @@index([sellerId])
+
 }
 
-model Order {
-  id             String   @id @default(uuid()) 
-  name           String
-  city           String
-  state          String
-  dropOffAddress String   // Fixed typo from 'dropOfAddress' to 'dropOffAddress'
-  zipCode        String
-  orderStatus    OrderStatus @default(PROCESSING)
-  buyerWallet    String 
-  user           User    @relation(fields: [buyerWallet], references: [walletAddress])
 
-  productId      String
-  product        Product @relation(fields: [productId], references: [id])
+model Order{
+  id    String   @id @default(uuid()) //36 we also any seed more 30
+  name  String
+  city  String
+  state String
+  dropOfAddress String
+  ZipCode       String
+  orderstatus    OrderStatus @default(PROCESSING)
+  buyerWallet  String 
+  user        User   @relation(fields: [buyerWallet],references: [userWallet])
 
-  sellerId       String
-  seller         Seller  @relation(fields: [sellerId], references: [walletAddress])
+  productId  String
+  product   Product  @relation(fields: [productId],references: [id])
 
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  sellerId String
+  seller   Seller   @relation(fields: [sellerId],references: [walletAddress])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model SellerBlink {
-  id            String  @id @default(uuid())
-  title         String
-  icon          String  
-  description   String
-  label         String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  sellerWallet  String  @unique
-  seller        Seller  @relation(fields: [sellerWallet], references: [walletAddress])
+  id          String  @id @default(uuid())
+  title       String
+  icon        String  
+  description String
+  label String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  sellerWallet  String    @unique
+  user        Seller    @relation(fields: [sellerWallet], references: [walletAddress])
 
-  @@index([sellerWallet], name: "seller_wallet_index")
+  @@index([sellerWallet],name:"user_wallet_address")
   @@index([id])
 }
 
-model ProductPurchaseTransaction {
-  id             String   @id @default(uuid())
-  amount         Decimal 
-  referenceKey   String  // For identifying the transaction
-  transactionId  String? // Optional field to store transaction ID if successful
-  status         Status  @default(PENDING)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+model ProductPurchaseTransaction{
+  id String @id @default(uuid())
+  amount String 
+  referenceKey String //finding the transaction based on this
+  transasctionId  String? //if purchase successfull let store the transasctionId
+  status Status  @default(PENDING)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  sellerWallet   String
-  seller         Seller  @relation(fields: [sellerWallet], references: [walletAddress])
+  sellerWallet String
+  seller  Seller  @relation(fields: [sellerWallet],references: [walletAddress])
 
-  productId      String
-  product        Product @relation(fields: [productId], references: [id])
+  productId  String
+  product Product @relation(fields: [productId],references: [id])
 
-  orderedWallet  String // Wallet of the person who made the purchase
-  user           User    @relation(fields: [orderedWallet], references: [walletAddress])
+  orderedWallet String //who made the purchase
+  user       User    @relation(fields: [orderedWallet],references: [userWallet])
   
   @@index([referenceKey])
 }
 
-model User {
-  id             String   @id @default(uuid())
-  walletAddress  String   @unique
-  name           String 
-  orders         Order[]
-  emailAddress   String   @unique
-  purchases      ProductPurchaseTransaction[]
+model User{
+  id String @id @default(uuid())
+  userWallet String @unique
+  name String 
+  orders  Order[]
+  emailAddress   String  @unique
 
-  @@index([walletAddress])
+  purchases     ProductPurchaseTransaction[]
+
+  @@index([userWallet])
 }
+
+
 
 enum Status {
   PENDING
