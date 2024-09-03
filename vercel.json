@@ -1,0 +1,45 @@
+{
+    "version": 2,
+    "name": "bark-e-commerce",
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "/index.js"
+      }
+    ],
+    "env": {
+      "NEXT_PUBLIC_SOLANA_NETWORK": "@solana-network",
+      "NEXT_PUBLIC_SOLANA_RPC_URL": "@solana-rpc-url",
+      "EDGE_STORE_API_KEY": "@edge-store-api-key",
+      "SOLANA_WALLET_SECRET_KEY": "@solana-wallet-secret-key",
+      "PAYMENT_PROGRAM_ID": "@payment-program-id",
+      "POSTGRES_URL": "@postgres-url",
+      "POSTGRES_PRISMA_URL": "@postgres-prisma-url",
+      "POSTGRES_URL_NO_SSL": "@postgres-url-no-ssl",
+      "POSTGRES_URL_NON_POOLING": "@postgres-url-non-pooling",
+      "POSTGRES_USER": "@postgres-user",
+      "POSTGRES_HOST": "@postgres-host",
+      "POSTGRES_PASSWORD": "@postgres-password",
+      "POSTGRES_DATABASE": "@postgres-database",
+      "NEXT_PUBLIC_VERCEL_URL": "@vercel-url"
+    },
+    "build": {
+      "env": {
+        "NODE_ENV": "development"
+      }
+    },
+    "regions": [
+      "sfo1",
+      "fra1"
+    ],
+    "github": {
+      "silent": true
+    }
+  }
+  
