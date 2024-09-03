@@ -50,13 +50,14 @@ export const POST = async (
     if (!name || !email || !address || !zipcode || !city || !amount || !state) {
       return Response.json(
         {
-          message: "Incomeplete data",
+          message: "Incomplete data",
         } as ActionError,
         {
           headers: ACTIONS_CORS_HEADERS,
         }
       );
     }
+
     const product = await prisma.product.findUnique({
       where: {
         id: params.productid,
@@ -65,10 +66,11 @@ export const POST = async (
         seller: true,
       },
     });
+
     if (!product) {
       return Response.json(
         {
-          message: "Product not available stop using endpoints",
+          message: "Product not available. Stop using endpoints.",
         } as ActionError,
         {
           headers: ACTIONS_CORS_HEADERS,
@@ -82,7 +84,7 @@ export const POST = async (
     try {
       account = new PublicKey(body.account);
     } catch (err) {
-      throw 'Invalid "account" provided';
+      throw new Error('Invalid "account" provided');
     }
 
     const connection = getConnection();
@@ -92,7 +94,7 @@ export const POST = async (
     const message = trimUuidToHalf(orderUuid);
 
     let anchorInstruction;
-    console.log("here 1");
+    console.log("Creating order PDA and Vault");
     let orderPda = PublicKey.findProgramAddressSync(
       [
         Buffer.from("order"),
@@ -101,12 +103,12 @@ export const POST = async (
       ],
       program.programId
     )[0];
-    console.log("here 2");
 
     let orderVault = PublicKey.findProgramAddressSync(
       [Buffer.from("orderVault"), orderPda.toBuffer()],
       program.programId
     )[0];
+
     try {
       anchorInstruction = await program.methods
         .createOrder(
@@ -121,12 +123,28 @@ export const POST = async (
         })
         .instruction();
     } catch (error) {
-      console.log("inside error", error);
+      console.error("Error creating anchor instruction", error);
+      return Response.json(
+        {
+          message: "Failed to create order instruction.",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
+      );
     }
-    console.log("iside purchase");
+
     if (!anchorInstruction) {
-      return;
+      return Response.json(
+        {
+          message: "Failed to create anchor instruction.",
+        } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
+      );
     }
+
     transaction.add(anchorInstruction);
 
     transaction.feePayer = account;
@@ -160,8 +178,11 @@ export const POST = async (
       headers: ACTIONS_CORS_HEADERS,
     });
   } catch (error) {
+    console.error("Error processing request", error);
     return Response.json(
-      { message: "error" },
+      {
+        message: "An error occurred while processing the request.",
+      } as ActionError,
       {
         headers: ACTIONS_CORS_HEADERS,
       }

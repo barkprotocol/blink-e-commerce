@@ -58,11 +58,11 @@ export const GET = async (
         actions: [
           {
             href: `/api/actions/${params.username}?navigate=products`,
-            label: "checkout to products",
+            label: "Checkout to products",
           },
           {
             href: `/api/actions/${params.username}?navigate=orders`,
-            label: "check your orders",
+            label: "Check your orders",
           },
         ],
       },
@@ -72,10 +72,13 @@ export const GET = async (
       headers: ACTIONS_CORS_HEADERS,
     });
   } catch (error) {
-    console.log(error);
-    return Response.json(null, {
-      headers: ACTIONS_CORS_HEADERS,
-    });
+    console.error("Error fetching seller details:", error);
+    return Response.json(
+      { message: "Something went wrong" } as ActionError,
+      {
+        headers: ACTIONS_CORS_HEADERS,
+      }
+    );
   }
 };
 
@@ -84,9 +87,16 @@ export const OPTIONS = GET;
 export const POST = async (req: Request, { params }: any) => {
   try {
     const url = new URL(req.url);
-    let route = url.searchParams.get("navigate");
+    const route = url.searchParams.get("navigate");
 
-    if (!route) return;
+    if (!route) {
+      return Response.json(
+        { message: "No route specified" } as ActionError,
+        {
+          headers: ACTIONS_CORS_HEADERS,
+        }
+      );
+    }
 
     const seller = await prisma.seller.findUnique({
       where: {
@@ -123,20 +133,18 @@ export const POST = async (req: Request, { params }: any) => {
         }
       );
     }
-    console.log("fetch product");
-    /// fetch his products from the db
+
+    console.log("Fetching products and orders");
     const products = await prisma.product.findMany({
       where: {
         sellerId: seller.walletAddress,
       },
     });
 
-    console.log(products.length);
-    // fetch his order from db
     const orders = await prisma.order.findMany({
       where: {
         buyerWallet: body.account,
-        orderstatus: "PROCESSING",
+        orderStatus: "PROCESSING",
       },
       include: {
         product: true,
@@ -156,17 +164,17 @@ export const POST = async (req: Request, { params }: any) => {
         },
       },
     };
-    // let nextLink: NextActionLink;
-    if (route == "products") {
-      if (products.length == 0) {
+
+    if (route === "products") {
+      if (products.length === 0) {
         nextLink = {
           type: "inline",
           action: {
             type: "completed",
             icon: "https://imgs.search.brave.com/mTigptQqts4F_6klqySaDOFw3rN35C_WULPGgqdB1Jg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/NjE5NjkyMS9waG90/by9vcGVuZWQtZW1w/dHktY2FyZGJvYXJk/LWJveC1vbi1ncmVl/bi5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9d1k3eUpiZjFB/WDhuLXNMb2lpRHNI/c1pfS2RBRXpGdW40/RWpoczJnQXZhWT0",
             title: "Products Empty",
-            description: "This Seller is not selling anything .....",
-            label: "nothing to show here",
+            description: "This seller is not selling anything.",
+            label: "Nothing to show here",
           },
         };
       } else {
@@ -187,10 +195,10 @@ export const POST = async (req: Request, { params }: any) => {
                     {
                       type: "select",
                       name: "productId",
-                      label: "select the product",
+                      label: "Select the product",
                       options: products.map((data) => ({
-                        label: `${data.name}`,
-                        value: `${data.id}`,
+                        label: data.name,
+                        value: data.id,
                       })),
                     },
                   ],
@@ -200,16 +208,16 @@ export const POST = async (req: Request, { params }: any) => {
           },
         };
       }
-    } else if (route == "orders") {
-      if (orders.length == 0) {
+    } else if (route === "orders") {
+      if (orders.length === 0) {
         nextLink = {
           type: "inline",
           action: {
             type: "completed",
             icon: "https://imgs.search.brave.com/mTigptQqts4F_6klqySaDOFw3rN35C_WULPGgqdB1Jg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMy/NjE5NjkyMS9waG90/by9vcGVuZWQtZW1w/dHktY2FyZGJvYXJk/LWJveC1vbi1ncmVl/bi5qcGc_cz02MTJ4/NjEyJnc9MCZrPTIw/JmM9d1k3eUpiZjFB/WDhuLXNMb2lpRHNI/c1pfS2RBRXpGdW40/RWpoczJnQXZhWT0",
-            title: "You dont have any orders",
-            description: "please buy from someones invenotory to check orders",
-            label: "nothing to show here",
+            title: "You don't have any orders",
+            description: "Please buy from someone's inventory to check orders.",
+            label: "Nothing to show here",
           },
         };
       } else {
@@ -218,15 +226,11 @@ export const POST = async (req: Request, { params }: any) => {
           action: {
             icon: seller.blink.icon,
             description:
-              "orders with only processing can be viewed here, and can be cancelled",
-            label: "you can check your processing orders and can cancel them",
+              "Orders with only processing status can be viewed here and can be canceled.",
+            label: "You can check your processing orders and cancel them",
             title: "Check out your orders",
             type: "action",
             links: {
-              // actions: orders.map((data) => ({
-              //   href: `/api/actions/${params.username}/orders/${data.id}`,
-              //   label: `${data.product.name}`,
-              // })),
               actions: [
                 {
                   href: `/api/actions/${params.username}/orders/{orderid}`,
@@ -235,10 +239,10 @@ export const POST = async (req: Request, { params }: any) => {
                     {
                       type: "select",
                       name: "orderid",
-                      label: "select orders",
+                      label: "Select orders",
                       options: orders.map((data) => ({
-                        label: `${data.product.name}`,
-                        value: `${data.id}`,
+                        label: data.product.name,
+                        value: data.id,
                       })),
                     },
                   ],
@@ -249,6 +253,7 @@ export const POST = async (req: Request, { params }: any) => {
         };
       }
     }
+
     const connection = getConnection();
     const transaction = new Transaction();
     transaction.add(
@@ -266,27 +271,24 @@ export const POST = async (req: Request, { params }: any) => {
     transaction.recentBlockhash = (
       await connection.getLatestBlockhash()
     ).blockhash;
-    console.log("in here before ceate reposonse");
+
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
-        message: "all good",
+        message: "All good",
         links: {
-          //@ts-ignore
           next: nextLink,
         },
       },
     });
-    console.log("response returned", nextLink);
+
     return Response.json(payload, {
       headers: ACTIONS_CORS_HEADERS,
     });
   } catch (error) {
-    console.log("inside error");
+    console.error("Error processing request:", error);
     return Response.json(
-      {
-        message: "something went wrong",
-      } as ActionError,
+      { message: "Something went wrong" } as ActionError,
       {
         headers: ACTIONS_CORS_HEADERS,
       }
