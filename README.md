@@ -1,4 +1,5 @@
 # BARK - Buy in a Blink
+**Proof of Concept**
 
 **Buy in a Blink** is an advanced e-commerce platform built on the Solana blockchain, utilizing the unique concept of "blinks." This platform empowers merchants to create personalized online stores, list products, and generate custom store links that can be shared on social media platforms like X (formerly Twitter). These links unfurl into dynamic previews, allowing users to shop directly from the link.
 
@@ -19,18 +20,28 @@ The BARK Protocol introduces **Solana Blink**, a blend of blockchain technology 
 ### 1. Store Setup
 
 - **Sign Up**: Merchants register on the platform and create a new store.
-- **Add Products**: Merchants can list products by adding details like images, titles, descriptions, prices, and stock quantities.
+- **Add Products**: Merchants list products by adding details like images, titles, descriptions, prices, and stock quantities.
+- **Configure Settings**: Set up payment options, shipping methods, and other preferences.
+- **Save and Publish**: Once configured, save changes and publish the store to make it live.
 
 ### 2. Sharing Store Links
 
-- **Generate Custom Link**: After setting up the store, merchants generate a unique link.
-- **Share on Social Media**: This link can be shared on platforms like X.
+- **Generate Custom Link**: After setting up the store, generate a unique link.
+- **Share on Social Media**: Share this link on platforms like X.
 - **Dynamic Preview**: The link unfurls into a store preview, enabling users to shop directly from it.
 
 ### 3. Payment Handling
 
-- **Escrow System**: Payments are processed through an escrow account, where funds are held until the product is delivered.
-- **Refunds**: In case of order cancellations, refunds are processed automatically.
+- **Escrow System**: Payments are processed through an escrow account, where funds are securely held until the product is delivered. This ensures protection for both buyers and sellers.
+- **Refunds**: Automatically processed in case of order cancellations, ensuring a smooth customer experience.
+
+### 4. Prisma Configurations and Migrations
+
+Run the following command to create and apply migrations:
+```bash
+npx prisma migrate dev --name your_migration_name
+```
+This command applies schema changes to the database and creates a new migration file.
 
 ## Getting Started
 
@@ -69,7 +80,7 @@ The BARK Protocol introduces **Solana Blink**, a blend of blockchain technology 
     EDGE_STORE_API_KEY=your-edgestore-api-key
     SOLANA_WALLET_SECRET_KEY=your-solana-wallet-secret-key
     PAYMENT_PROGRAM_ID=your-payment-program-id
-    POSTGRES_URL=your-postgres-url
+    POSTGRES_URL=postgresql://user:password@localhost:5432/mydatabase
     NEXT_PUBLIC_VERCEL_URL=your-vercel-url
     ```
 
@@ -85,12 +96,14 @@ The BARK Protocol introduces **Solana Blink**, a blend of blockchain technology 
 
 ### Creating a Store
 
-- **Log In**: Merchants log into their account.
-- **Create Store**: Navigate to "Create Store" and enter the required details.
+- **Log In**: Merchants log into their account. If you don’t have an account, register by clicking "Sign Up."
+- **Create Store**: Navigate to "Create Store" in the dashboard. Enter details like store name, description, and branding information. Upload your store’s logo and banner image here.
+- **Configure Settings**: Set up payment options, shipping methods, and other preferences.
+- **Save and Publish**: Save your changes and publish your store to make it live.
 
 ### Adding Products
 
-- **Manage Products**: Go to the "Manage Products" section to add new products.
+- **Manage Products**: Go to the "Manage Products" section to add new products. Provide details such as images, titles, descriptions, prices, and stock quantities.
 
 ### Generating Store Link
 
@@ -134,4 +147,4 @@ We welcome contributions to improve **Buy in a Blink**. To contribute:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The MIT License - see the [LICENSE](LICENSE) file for details.

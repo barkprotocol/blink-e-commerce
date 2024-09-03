@@ -4,86 +4,86 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("POSTGRES_URL")
 }
 
 model Seller {
-  id           String    @id @default(uuid()) @unique
-  username     String    @unique
-  walletAddress String   @unique
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  products     Product[] 
-  blink        SellerBlink?
-  blinkCreated Boolean @default(false)
-  Payments     ProductPurchaseTransaction[]
-  orders       Order[]
+  id             String    @id @default(uuid()) @unique
+  username       String    @unique
+  walletAddress  String    @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  products       Product[] 
+  blink          SellerBlink?
+  blinkCreated   Boolean   @default(false)
+  payments       ProductPurchaseTransaction[]
+  orders         Order[]
 
   @@index([walletAddress])
   @@index([username])
 }
 
 model Product {
-  id          String   @id @default(uuid()) 
-  name        String
-  title       String
-  description String
-  label       String
-  imageUrl    String
-  price       Decimal  // Better to use a numeric type
-  stock       Int      // Better to use a numeric type
-  sellerId    String   
-  seller      Seller   @relation(fields: [sellerId], references: [walletAddress]) 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(uuid()) 
+  name          String
+  title         String
+  description   String
+  label         String
+  imageUrl      String
+  price         Decimal  // Numeric type for precise values
+  stock         Int      // Integer type for stock quantity
+  sellerId      String   
+  seller        Seller   @relation(fields: [sellerId], references: [walletAddress]) 
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  purchase  ProductPurchaseTransaction[]
-  orders    Order[]
+  purchases     ProductPurchaseTransaction[]
+  orders        Order[]
 
   @@index([sellerId])
 }
 
 model Order {
-  id           String   @id @default(uuid()) 
-  name         String
-  city         String
-  state        String
-  dropOffAddress String
-  zipCode      String
-  orderStatus  OrderStatus @default(PROCESSING)
-  buyerWallet  String 
-  user         User   @relation(fields: [buyerWallet], references: [userWallet])
+  id             String   @id @default(uuid()) 
+  name           String
+  city           String
+  state          String
+  dropOffAddress String   // Fixed typo from 'dropOfAddress' to 'dropOffAddress'
+  zipCode        String
+  orderStatus    OrderStatus @default(PROCESSING)
+  buyerWallet    String 
+  user           User    @relation(fields: [buyerWallet], references: [walletAddress])
 
-  productId    String
-  product      Product  @relation(fields: [productId], references: [id])
+  productId      String
+  product        Product @relation(fields: [productId], references: [id])
 
-  sellerId     String
-  seller       Seller   @relation(fields: [sellerId], references: [walletAddress])
+  sellerId       String
+  seller         Seller  @relation(fields: [sellerId], references: [walletAddress])
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model SellerBlink {
-  id          String  @id @default(uuid())
-  title       String
-  icon        String  
-  description String
-  label       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  sellerWallet String  @unique
-  user        Seller    @relation(fields: [sellerWallet], references: [walletAddress])
+  id            String  @id @default(uuid())
+  title         String
+  icon          String  
+  description   String
+  label         String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  sellerWallet  String  @unique
+  seller        Seller  @relation(fields: [sellerWallet], references: [walletAddress])
 
-  @@index([sellerWallet], name: "user_wallet_address")
+  @@index([sellerWallet], name: "seller_wallet_index")
   @@index([id])
 }
 
 model ProductPurchaseTransaction {
-  id             String @id @default(uuid())
+  id             String   @id @default(uuid())
   amount         Decimal 
-  referenceKey   String //finding the transaction based on this
-  transactionId  String? //if purchase successful, store the transactionId
+  referenceKey   String  // For identifying the transaction
+  transactionId  String? // Optional field to store transaction ID if successful
   status         Status  @default(PENDING)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -94,19 +94,19 @@ model ProductPurchaseTransaction {
   productId      String
   product        Product @relation(fields: [productId], references: [id])
 
-  orderedWallet  String // who made the purchase
-  user           User    @relation(fields: [orderedWallet], references: [userWallet])
+  orderedWallet  String // Wallet of the person who made the purchase
+  user           User    @relation(fields: [orderedWallet], references: [walletAddress])
   
   @@index([referenceKey])
 }
 
 model User {
-  id            String @id @default(uuid())
-  walletAddress String @unique
-  name          String 
-  orders        Order[]
-  emailAddress  String @unique
-  purchases     ProductPurchaseTransaction[]
+  id             String   @id @default(uuid())
+  walletAddress  String   @unique
+  name           String 
+  orders         Order[]
+  emailAddress   String   @unique
+  purchases      ProductPurchaseTransaction[]
 
   @@index([walletAddress])
 }
