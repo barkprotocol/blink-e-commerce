@@ -22,7 +22,7 @@ export default function LandingPage() {
             <Button size="sm" className="bg-black text-white hover:bg-gray-800 px-6 py-3">
               Create Your Store
             </Button>
-            <Button size="sm" variant="outline" className="px-6 py-3">
+            <Button size="sm" variant="outline" className="border-gray-500 text-gray-500 hover:bg-gray-100 px-6 py-3">
               Learn More
             </Button>
           </div>

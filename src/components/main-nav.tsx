@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
@@ -19,16 +22,26 @@ interface MainNavProps {
 }
 
 export function MainNav({ items = [], children }: MainNavProps) {
-  const { theme } = useTheme(); // Get the current theme
+  const { theme } = useTheme();
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+  const { connected } = useWallet(); // Use wallet hook to get connection status
 
   const handleMenuToggle = () => {
     setShowMobileMenu(prevState => !prevState);
   };
 
+  // Define navigation items including new ones
+  const navItems = [
+    { href: "/", title: "Home" },
+    { href: "/features", title: "Features" },
+    { href: "/services", title: "Services" },
+    { href: "/faq", title: "FAQ" },
+    ...items
+  ];
+
   return (
-    <div className="flex gap-6 md:gap-10 items-center">
+    <div className="flex items-center justify-between gap-6 md:gap-10">
       {/* Desktop Logo and Site Name */}
       <Link
         href="/"
@@ -48,27 +61,25 @@ export function MainNav({ items = [], children }: MainNavProps) {
       </Link>
 
       {/* Desktop Navigation */}
-      {items.length > 0 && (
-        <nav className="hidden md:flex gap-2">
-          {items.map((item) => (
-            <Button key={item.href} variant="link" asChild>
-              <Link
-                href={item.disabled ? "#" : item.href}
-                className={cn(
-                  "flex items-center text-lg font-medium transition-colors",
-                  item.href.startsWith(`/${segment}`)
-                    ? "text-foreground"
-                    : "text-foreground/60",
-                  item.disabled && "cursor-not-allowed opacity-80"
-                )}
-                aria-disabled={item.disabled}
-              >
-                {item.title}
-              </Link>
-            </Button>
-          ))}
-        </nav>
-      )}
+      <nav className="hidden md:flex flex-grow gap-4">
+        {navItems.map((item) => (
+          <Button key={item.href} variant="link" asChild>
+            <Link
+              href={item.disabled ? "#" : item.href}
+              className={cn(
+                "flex items-center text-lg font-medium transition-colors no-underline",
+                item.href.startsWith(`/${segment}`)
+                  ? "text-foreground"
+                  : "text-foreground/60",
+                item.disabled && "cursor-not-allowed opacity-80"
+              )}
+              aria-disabled={item.disabled}
+            >
+              {item.title}
+            </Link>
+          </Button>
+        ))}
+      </nav>
 
       {/* Mobile Menu Toggle */}
       <button
@@ -77,13 +88,13 @@ export function MainNav({ items = [], children }: MainNavProps) {
         aria-label={showMobileMenu ? "Close mobile menu" : "Open mobile menu"}
         aria-expanded={showMobileMenu}
       >
-        {showMobileMenu ? <Icons.close /> : <Icons.menu />}
+        {showMobileMenu ? <Icons.close className="h-6 w-6" /> : <Icons.menu className="h-6 w-6" />}
         <span className="font-bold sr-only">Menu</span>
       </button>
 
       {/* Mobile Navigation Menu */}
-      {showMobileMenu && items.length > 0 && (
-        <MobileNav items={items}>{children}</MobileNav>
+      {showMobileMenu && navItems.length > 0 && (
+        <MobileNav items={navItems}>{children}</MobileNav>
       )}
     </div>
   );
