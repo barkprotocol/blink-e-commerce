@@ -11,7 +11,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
 export default function LandingPage() {
   return (
-    <div className={`min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 ${poppins.className}`}>
+    <div className={`min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-200 ${poppins.className}`}>
       <main className="container mx-auto px-4 py-16">
         <section className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
@@ -29,7 +29,7 @@ export default function LandingPage() {
             <Button size="sm" className="bg-gray-900 text-white hover:bg-gray-800 px-6 py-3">
               Create Your Store
             </Button>
-            <Button size="sm" variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-100 px-6 py-3">
+            <Button size="sm" variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-400 px-6 py-3">
               Learn More
             </Button>
           </div>

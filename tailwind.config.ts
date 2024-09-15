@@ -79,7 +79,7 @@ const config: Config = {
     },
   },
   plugins: [
-    require("tailwindcss-animate"),
+    require("tailwindcss-animate"), // Add Tailwind CSS animate plugin for custom animations
   ],
 };
 
