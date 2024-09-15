@@ -6,15 +6,12 @@ import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+import { MobileNav } from "@/components/mobile-nav";
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/icons";
-import { MobileNav } from "@/components/mobile-nav";
-import { Button } from "@/components/ui/button";
 
 interface MainNavProps {
   items?: MainNavItem[];
@@ -25,10 +22,10 @@ export function MainNav({ items = [], children }: MainNavProps) {
   const { theme } = useTheme();
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
-  const { connected } = useWallet(); // Use wallet hook to get connection status
+  const { connected } = useWallet();
 
   const handleMenuToggle = () => {
-    setShowMobileMenu(prevState => !prevState);
+    setShowMobileMenu((prevState) => !prevState);
   };
 
   // Define navigation items including new ones
@@ -88,7 +85,7 @@ export function MainNav({ items = [], children }: MainNavProps) {
         aria-label={showMobileMenu ? "Close mobile menu" : "Open mobile menu"}
         aria-expanded={showMobileMenu}
       >
-        {showMobileMenu ? <Icons.close className="h-6 w-6" /> : <Icons.menu className="h-6 w-6" />}
+        {showMobileMenu ? <Icons.close className="h-6 w-6" aria-hidden="true" /> : <Icons.menu className="h-6 w-6" aria-hidden="true" />}
         <span className="font-bold sr-only">Menu</span>
       </button>
 

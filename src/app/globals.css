@@ -20,7 +20,7 @@
     --secondary-foreground: 220.9 39.3% 11%;
 
     --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    --muted-foreground: 220.9 39.3% 11%;
 
     --accent: 220 14.3% 95.9%;
     --accent-foreground: 220.9 39.3% 11%;
@@ -70,10 +70,50 @@
 }
 
 @layer base {
-  * {
+  *, *::before, *::after {
+    box-sizing: border-box;
     @apply border-border;
   }
+  
   body {
-    @apply !bg-background text-foreground;
+    @apply bg-background text-foreground;
+    line-height: 1.6;
+    font-family: system-ui, sans-serif;
+  }
+
+  a {
+    @apply text-primary;
+    transition: color 0.2s ease-in-out;
+  }
+
+  a:hover {
+    @apply text-primary-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+
+  button, input, select, textarea {
+    @apply rounded-md border border-border;
+  }
+
+  code {
+    @apply bg-muted text-accent;
+  }
+
+  .container {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
   }
 }

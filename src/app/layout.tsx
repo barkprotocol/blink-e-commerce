@@ -25,8 +25,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "BARK - BLINK COMMERCE",
-  description:
-    "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
+  description: "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
 };
 
 export default function RootLayout({

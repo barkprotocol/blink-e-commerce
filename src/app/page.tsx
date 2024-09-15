@@ -14,6 +14,9 @@ export default function LandingPage() {
     <div className={`min-h-screen bg-transparent text-gray-800 dark:text-gray-200 ${poppins.className}`}>
       <main className="container mx-auto px-4 py-16">
         <section className="text-center mb-16">
+          <div className="flex items-center justify-center mb-4">
+            <img src="https://ucarecdn.com/b065ba1f-6279-4677-ae8f-0ebc1facb68d/bark_icon.png" alt="Buy in a Blink Logo" className="h-10" />
+          </div>
           <h1 className="text-5xl font-bold mb-6 font-syne">Revolutionize Your E-commerce with Solana</h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Buy in a Blink empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
@@ -91,8 +94,8 @@ export default function LandingPage() {
         <section className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           <h2 className="text-3xl font-semibold mb-6 text-center font-syne">Stay Updated</h2>
           <p className="text-center mb-6">Subscribe to our newsletter for the latest updates and features.</p>
-          <form className="flex max-w-md mx-auto">
-            <Input type="email" placeholder="Enter your email" className="mr-2" />
+          <form className="flex max-w-md mx-auto" aria-label="Subscribe to our newsletter">
+            <Input type="email" placeholder="Enter your email" className="mr-2" aria-label="Email address" />
             <Button type="submit" className="px-6 py-3">Subscribe</Button>
           </form>
         </section>
@@ -130,23 +133,23 @@ export default function LandingPage() {
             </ul>
           </div>
         </div>
+        <div className="text-center mt-8 text-sm">
+        </div>
       </footer>
     </div>
   );
 }
 
-function FeatureCard({ icon, title, description }) {
-  return (
-    <Card className="bg-white dark:bg-gray-900 rounded-lg shadow-lg">
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-gray-800 dark:text-gray-200">
-          {icon}
-          <span className="text-lg font-syne font-semibold">{title}</span>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <CardDescription className="text-gray-600 dark:text-gray-400">{description}</CardDescription>
-      </CardContent>
-    </Card>
-  );
-}
+const FeatureCard = ({ icon, title, description }) => (
+  <Card className="bg-sand-50 dark:bg-sand-900 shadow-md hover:shadow-lg transition-shadow">
+    <CardHeader>
+      <div className="flex justify-center items-center mb-4">
+        {icon}
+      </div>
+      <CardTitle className="text-xl font-semibold font-syne">{title}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <CardDescription className="text-gray-600 dark:text-gray-400">{description}</CardDescription>
+    </CardContent>
+  </Card>
+);
