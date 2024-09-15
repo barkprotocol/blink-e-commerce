@@ -2,7 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { useTheme } from "next-themes";
 
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
@@ -16,51 +18,71 @@ interface MainNavProps {
   children?: React.ReactNode;
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ items = [], children }: MainNavProps) {
+  const { theme } = useTheme(); // Get the current theme
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
+  const handleMenuToggle = () => {
+    setShowMobileMenu(prevState => !prevState);
+  };
+
   return (
-    <div className="flex gap-6 md:gap-10">
+    <div className="flex gap-6 md:gap-10 items-center">
+      {/* Desktop Logo and Site Name */}
       <Link
         href="/"
-        className="hidden text-lg items-center space-x-2 md:flex hover:underline underline-offset-4"
+        className="hidden md:flex items-center space-x-2 text-lg hover:text-foreground/80"
+        aria-label={`Go to ${siteConfig.name}`}
       >
-        <Icons.logo />
+        <Image
+          src={theme === 'dark' ? siteConfig.logoUrlDark : siteConfig.logoUrlLight}
+          alt={`${siteConfig.name} Logo`}
+          width={110}
+          height={50}
+          className="rounded-full"
+        />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
         </span>
       </Link>
 
-      {items?.length ? (
-        <nav className="hidden gap-2 md:flex">
-          {items?.map((item, key) => (
-            <Button key={key} variant={"link"} asChild>
+      {/* Desktop Navigation */}
+      {items.length > 0 && (
+        <nav className="hidden md:flex gap-2">
+          {items.map((item) => (
+            <Button key={item.href} variant="link" asChild>
               <Link
                 href={item.disabled ? "#" : item.href}
                 className={cn(
-                  "flex items-center text-lg font-medium transition-colors hover:text-foreground/80",
+                  "flex items-center text-lg font-medium transition-colors",
                   item.href.startsWith(`/${segment}`)
                     ? "text-foreground"
                     : "text-foreground/60",
-                  item.disabled && "cursor-not-allowed opacity-80",
+                  item.disabled && "cursor-not-allowed opacity-80"
                 )}
+                aria-disabled={item.disabled}
               >
                 {item.title}
               </Link>
             </Button>
           ))}
         </nav>
-      ) : null}
+      )}
 
+      {/* Mobile Menu Toggle */}
       <button
         className="flex items-center space-x-2 md:hidden"
-        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        onClick={handleMenuToggle}
+        aria-label={showMobileMenu ? "Close mobile menu" : "Open mobile menu"}
+        aria-expanded={showMobileMenu}
       >
         {showMobileMenu ? <Icons.close /> : <Icons.menu />}
         <span className="font-bold sr-only">Menu</span>
       </button>
-      {showMobileMenu && items && (
+
+      {/* Mobile Navigation Menu */}
+      {showMobileMenu && items.length > 0 && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
     </div>

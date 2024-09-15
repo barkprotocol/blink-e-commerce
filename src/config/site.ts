@@ -1,14 +1,18 @@
-import { SiteConfig } from "@/types";
+import { SiteConfig } from "@/types/types";
 
 export const siteConfig: SiteConfig = {
-  name: "Solana Actions and Blinks",
-  description: "",
-  url: "https://",
-  ogImage: "https://tx.shadcn.com/og.jpg",
+  version: "0.1.0",
+  description: "The BARK - Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
+  url: "https://blink.barkprotocol.net",
+  ogImage: "https://ucarecdn.com/4bc61874-018e-481b-bc07-c3f93956f7bd/tchest.png",
+  logoUrlLight: "https://ucarecdn.com/801d46ca-f6d7-4661-9160-e14022ae0937/barklogolight.svg",
+  logoUrlDark: "https://ucarecdn.com/b8f69bea-d5a8-4683-b6d9-bc07cf076100/barklogodark.png",
   links: {
-    twitter: "https://twitter.com/nickfrosty",
-    github:
-      "https://github.com/solana-developers/solana-actions/tree/main/examples/next-js",
-    docs: "https://solana.com/docs/advanced/actions",
+    twitter: "https://twitter.com/bark_protocol",
+    github: "https://github.com/barkprotocol/bark-blinks",
+    docs: "https://docs.barkprotocol.net/actions",
+    medium: "https://medium.com/@barkprotocol",
+    instagram: "https://instagram.com/bark.protocol",
+    telegram: "https://t.me/bark_protocol",
   },
 };

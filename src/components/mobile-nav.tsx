@@ -7,6 +7,10 @@ import { cn } from "@/lib/utils";
 import { useLockBody } from "@/hooks/use-lock-body";
 import { Icons } from "@/components/icons";
 
+// URLs for light and dark mode logos
+const LOGO_URL_DARK = "https://ucarecdn.com/0c2a1b21-f836-4343-9d35-19386c7f7f4d/barkprotocoldark.svg";
+const LOGO_URL_LIGHT = "https://ucarecdn.com/0c2a1b21-f836-4343-9d35-19386c7f7f4d/barkprotocol.svg";
+
 interface MobileNavProps {
   items: MainNavItem[];
   children?: React.ReactNode;
@@ -14,6 +18,9 @@ interface MobileNavProps {
 
 export function MobileNav({ items, children }: MobileNavProps) {
   useLockBody();
+
+  // Determine if dark mode is active
+  const isDarkMode = React.useContext(ThemeContext)?.isDarkMode;
 
   return (
     <div
@@ -23,7 +30,11 @@ export function MobileNav({ items, children }: MobileNavProps) {
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
         <Link href="/" className="flex items-center space-x-2 text-lg">
-          <Icons.logo />
+          <img
+            src={isDarkMode ? LOGO_URL_DARK : LOGO_URL_LIGHT}
+            alt={siteConfig.name}
+            className="h-8 w-auto"
+          />
           <span className="font-bold">{siteConfig.name}</span>
         </Link>
         <nav className="grid grid-flow-row auto-rows-max text-sm">

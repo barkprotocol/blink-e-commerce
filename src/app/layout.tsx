@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Syne, Poppins } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 
@@ -12,7 +12,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeModeToggle } from "@/components/theme-mode-toggle";
 import { siteConfig } from "@/config/site";
 
+// Import fonts
 const inter = Inter({ subsets: ["latin"] });
+const syne = Syne({ subsets: ["latin"], weight: ["400", "700"] });
+const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -21,8 +24,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Solana Actions and Blinks - Sample Code Snippets",
-  description: "",
+  title: "BARK - BLINK COMMERCE",
+  description:
+    "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
 };
 
 export default function RootLayout({
@@ -31,10 +35,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${syne.className} ${poppins.className}`}>
+      <body className={cn(inter.className, "bg-gray-100 dark:bg-gray-900 min-h-screen")}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex min-h-screen flex-col">
+          <div className="flex min-h-screen flex-col relative">
             <header className="container z-40 bg-background">
               <div className="flex h-20 items-center justify-between py-6">
                 <MainNav items={marketingConfig.mainNav} />
@@ -45,13 +49,12 @@ export default function RootLayout({
                       href={siteConfig.links.docs}
                       className={cn(
                         buttonVariants({ variant: "secondary", size: "sm" }),
-                        "px-4",
+                        "px-4"
                       )}
                     >
-                      Read the Docs
+                      Connect Wallet
                     </Link>
                   </Button>
-
                   <ThemeModeToggle />
                 </nav>
               </div>
@@ -59,11 +62,11 @@ export default function RootLayout({
 
             <div
               className={cn(
-                "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]",
+                "absolute inset-0 -z-10 bg-gray-100 dark:bg-gray-900"
               )}
             ></div>
 
-            <main className={"flex-1 space-y-10 max-w-screen-xl mx-auto"}>
+            <main className="flex-1 space-y-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               {children}
             </main>
 
