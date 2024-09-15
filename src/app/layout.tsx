@@ -25,7 +25,24 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "BARK - BLINK COMMERCE",
-  description: "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
+  description:
+    "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
+  // Add more SEO metadata
+  openGraph: {
+    title: "BARK - BLINK COMMERCE",
+    description:
+      "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
+    type: "website",
+    url: "https://blinkcommerce.app", // Replace with your actual URL
+    images: [
+      {
+        url: "https://ucarecdn.com/92d4d7ea-f9d8-429c-bf68-6f3bc69c1c02/goldenshoppingcart.jpg", // Replace with actual image URL
+        width: 1200,
+        height: 630,
+        alt: "BARK Commerce",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -35,7 +52,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${syne.className} ${poppins.className}`}>
-      <body className={cn(inter.className, "bg-gray-100 dark:bg-gray-900 min-h-screen")}>
+      <body
+        className={cn(
+          inter.className,
+          "bg-gray-100 dark:bg-gray-900 min-h-screen"
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-screen flex-col relative">
             <header className="container z-50 bg-background">
@@ -45,6 +67,7 @@ export default function RootLayout({
                   <Button asChild>
                     <Link
                       target="_blank"
+                      rel="noopener noreferrer"
                       href={siteConfig.links.docs}
                       className={cn(
                         buttonVariants({ variant: "secondary", size: "sm" }),
@@ -65,10 +88,11 @@ export default function RootLayout({
               )}
             ></div>
 
-            <main className="flex-1 space-y-20 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <main className="flex-1 space-y-20 container mx-auto">
               {children}
             </main>
 
+            <SiteFooter />
           </div>
         </ThemeProvider>
       </body>

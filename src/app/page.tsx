@@ -140,9 +140,6 @@ export default function LandingPage() {
             </ul>
           </div>
         </div>
-        <div className="text-center text-sm">
-          &copy; {new Date().getFullYear()} BARK Protocol. All rights reserved.
-        </div>
       </footer>
     </div>
   );
