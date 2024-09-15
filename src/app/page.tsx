@@ -16,9 +16,9 @@ export default function LandingPage() {
         <section className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
             <img
-              src="https://ucarecdn.com/0c2a1b21-f836-4343-9d35-19386c7f7f4d/barkprotocoldark.svg"
-              alt="BARK - Buy in a Blink Logo"
-              className="h-12"
+              src="https://ucarecdn.com/b065ba1f-6279-4677-ae8f-0ebc1facb68d/bark_icon.png"
+              alt="BARK Icon"
+              className="h-14"
             />
           </div>
           <h1 className="text-5xl font-bold mb-6 font-syne">Revolutionize Your E-commerce with Solana</h1>
@@ -26,7 +26,7 @@ export default function LandingPage() {
             Buy in a Blink empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="sm" className="bg-gray-900 text-white hover:bg-gray-900 px-6 py-3">
+            <Button size="sm" className="bg-gray-900 text-white hover:bg-gray-800 px-6 py-3">
               Create Your Store
             </Button>
             <Button size="sm" variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-100 px-6 py-3">
@@ -37,22 +37,22 @@ export default function LandingPage() {
 
         <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
           <FeatureCard
-            icon={<Zap className="h-10 w-10 text-gray-400" />}
+            icon={<Zap className="h-8 w-8 text-gray-400" />}
             title="Lightning Fast"
             description="Enjoy transactions that happen in the blink of an eye, thanks to Solana's high-speed blockchain."
           />
           <FeatureCard
-            icon={<ShoppingBag className="h-10 w-10 text-gray-400" />}
+            icon={<ShoppingBag className="h-8 w-8 text-gray-400" />}
             title="Custom Stores"
             description="Create a distinctive online presence with custom branding and product listings tailored to your business."
           />
           <FeatureCard
-            icon={<Share2 className="h-10 w-10 text-gray-400" />}
+            icon={<Share2 className="h-8 w-8 text-gray-400" />}
             title="Social Sharing"
             description="Increase your store's visibility with easy-to-share custom links across all your social media platforms."
           />
           <FeatureCard
-            icon={<Rocket className="h-10 w-10 text-gray-400" />}
+            icon={<Rocket className="h-8 w-8 text-gray-400" />}
             title="Dynamic Previews"
             description="Turn shared links into engaging, interactive previews that captivate your audience and drive sales."
           />
@@ -105,23 +105,26 @@ export default function LandingPage() {
         </section>
       </main>
 
-      <footer className="container mx-auto px-4 py-8 mt-16 border-t border-gray-200 dark:border-gray-700">
-        <div className="grid md:grid-cols-4 gap-8">
+      <footer className="bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 py-12 flex flex-col items-center">
+        <div className="text-center mb-6">
+          <img
+            src="https://ucarecdn.com/0c2a1b21-f836-4343-9d35-19386c7f7f4d/barkprotocoldark.svg"
+            alt="BARK Logo"
+            className="h-12 mx-auto mb-4"
+          />
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-14 text-center mb-8">
           <div>
-            <h3 className="font-semibold mb-4 font-syne">Buy in a Blink</h3>
-            <p className="text-sm">Revolutionizing e-commerce with Solana blockchain technology.</p>
-          </div>
-          <div>
-            <h3 className="font-semibold mb-4 font-syne">Quick Links</h3>
+            <h3 className="font-semibold mb-5 font-syne text-lg">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" prefetch={false}>Home</Link></li>
               <li><Link href="/features" prefetch={false}>Features</Link></li>
-              <li><Link href="/pricing" prefetch={false}>Pricing</Link></li>
+              <li><Link href="/services" prefetch={false}>Services</Link></li>
               <li><Link href="/contact" prefetch={false}>Contact</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-4 font-syne">Legal</h3>
+            <h3 className="font-semibold mb-5 font-syne text-lg">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li><Link href="/terms" prefetch={false}>Terms of Service</Link></li>
               <li><Link href="/privacy" prefetch={false}>Privacy Policy</Link></li>
@@ -129,32 +132,36 @@ export default function LandingPage() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold mb-4 font-syne">Connect</h3>
+            <h3 className="font-semibold mb-5 font-syne text-lg">Community</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="https://twitter.com" prefetch={false}>Twitter</Link></li>
-              <li><Link href="https://discord.com" prefetch={false}>Discord</Link></li>
-              <li><Link href="https://github.com" prefetch={false}>GitHub</Link></li>
+              <li><Link href="https://twitter.com/bark_protocol" target="_blank" prefetch={false}>Twitter</Link></li>
+              <li><Link href="https://medium.com/@barkprotocol" target="_blank" prefetch={false}>Medium</Link></li>
+              <li><Link href="https://instagram.com/bark.protocol" target="_blank" prefetch={false}>Instagram</Link></li>
             </ul>
           </div>
         </div>
-        <div className="text-center mt-8 text-sm">
-          <p>&copy; {new Date().getFullYear()} BARK Protocol. All rights reserved.</p>
+        <div className="text-center text-sm">
+          &copy; {new Date().getFullYear()} BARK Protocol. All rights reserved.
         </div>
       </footer>
     </div>
   );
 }
 
-const FeatureCard = ({ icon, title, description }) => (
-  <Card className="bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow p-6">
-    <CardHeader>
-      <div className="flex justify-center mb-4">
-        {icon}
-      </div>
-      <CardTitle className="text-xl font-semibold mb-2 font-syne">{title}</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <CardDescription className="text-gray-700 dark:text-gray-300">{description}</CardDescription>
-    </CardContent>
-  </Card>
-);
+function FeatureCard({ icon, title, description }) {
+  return (
+    <Card className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
+      <CardHeader>
+        <div className="flex items-center justify-center mb-4">
+          {icon}
+        </div>
+        <CardTitle className="text-xl font-semibold font-syne">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <CardDescription className="text-sm text-gray-600 dark:text-gray-400">
+          {description}
+        </CardDescription>
+      </CardContent>
+    </Card>
+  );
+}
