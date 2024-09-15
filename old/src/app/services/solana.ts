@@ -12,7 +12,7 @@ import {
     LAMPORTS_PER_SOL,
   } from "@solana/web3.js";
   import { ProductInfo } from "../models/schemas";
-  import * as MetaplexService from "../services/metaplexService";
+  import * as MetaplexService from "./metaplexService";
   import bs58 from "bs58";
   import { mplCore } from "@metaplex-foundation/mpl-core";
   import { irysUploader } from "@metaplex-foundation/umi-uploader-irys";

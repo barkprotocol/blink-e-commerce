@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 39 25% 90%; /* Light sand color */
+    --foreground: 39 25% 20%; /* Darker sand color */
+    --card: 39 25% 90%; /* Light sand color */
+    --card-foreground: 39 25% 20%; /* Darker sand color */
+    --popover: 39 25% 90%; /* Light sand color */
+    --popover-foreground: 39 25% 20%; /* Darker sand color */
+    --primary: 39 25% 60%; /* Mid sand color */
+    --primary-foreground: 39 25% 10%; /* Very dark sand color */
+    --secondary: 39 25% 80%; /* Lighter sand color */
+    --secondary-foreground: 39 25% 20%; /* Darker sand color */
+    --muted: 39 25% 85%; /* Soft sand color */
+    --muted-foreground: 39 25% 50%; /* Medium sand color */
+    --accent: 39 25% 85%; /* Soft sand color */
+    --accent-foreground: 39 25% 15%; /* Darker sand color */
+    --destructive: 0 100% 70%; /* Sand's red hue */
+    --destructive-foreground: 39 25% 10%; /* Very dark sand color */
+    --border: 39 25% 75%; /* Medium light sand color */
+    --input: 39 25% 75%; /* Medium light sand color */
+    --ring: 39 25% 20%; /* Dark sand color */
+    --chart-1: 39 25% 70%; /* Sand-inspired chart color */
+    --chart-2: 39 25% 60%; /* Slightly darker sand */
+    --chart-3: 39 25% 50%; /* Medium sand */
+    --chart-4: 39 25% 40%; /* Darker sand */
+    --chart-5: 39 25% 30%; /* Even darker sand */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 39 25% 20%; /* Dark sand color */
+    --foreground: 39 25% 90%; /* Light sand color */
+    --card: 39 25% 20%; /* Dark sand color */
+    --card-foreground: 39 25% 90%; /* Light sand color */
+    --popover: 39 25% 20%; /* Dark sand color */
+    --popover-foreground: 39 25% 90%; /* Light sand color */
+    --primary: 39 25% 10%; /* Very dark sand color */
+    --primary-foreground: 39 25% 90%; /* Light sand color */
+    --secondary: 39 25% 25%; /* Darker sand color */
+    --secondary-foreground: 39 25% 90%; /* Light sand color */
+    --muted: 39 25% 25%; /* Darker sand color */
+    --muted-foreground: 39 25% 70%; /* Medium sand color */
+    --accent: 39 25% 25%; /* Darker sand color */
+    --accent-foreground: 39 25% 90%; /* Light sand color */
+    --destructive: 0 100% 50%; /* Sand's red hue */
+    --destructive-foreground: 39 25% 90%; /* Light sand color */
+    --border: 39 25% 25%; /* Darker sand color */
+    --input: 39 25% 25%; /* Darker sand color */
+    --ring: 39 25% 60%; /* Medium light sand color */
+    --chart-1: 39 25% 50%; /* Medium sand */
+    --chart-2: 39 25% 45%; /* Slightly darker sand */
+    --chart-3: 39 25% 55%; /* Medium light sand */
+    --chart-4: 39 25% 60%; /* Light sand */
+    --chart-5: 39 25% 55%; /* Sand-inspired chart color */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
