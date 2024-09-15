@@ -194,7 +194,7 @@ export const POST = async (req: Request) => {
         const payload: CompletedAction = {
           type: "completed",
           title: `Order status`,
-          icon: `https://robohash.org/${body.account}?set=set4`,
+          icon: `https://barkshop.app/${body.account}?set=set4`,
           label: "Complete!",
           description:
             "purchase was successful! You'll get an email with all the orders details, If you've any queries email us at hello@support.xyz",
@@ -210,7 +210,7 @@ export const POST = async (req: Request) => {
       const payload: CompletedAction = {
         type: "completed",
         title: `Order Status`,
-        icon: `https://robohash.org/${body.account}?set=set4`,
+        icon: `https://barkshop.app/${body.account}?set=set4`,
         label: "Complete!",
         description: "purchase failed! contact us at help@support.us",
       };

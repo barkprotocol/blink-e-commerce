@@ -37,7 +37,7 @@ export function UserSetting() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
               <Avatar className="h-11 w-11 border">
-                <AvatarImage src={`https://robohash.org/${userData.walletAddress}?set=set4`} alt="@shadcn" />
+                <AvatarImage src={`https://barkshop.app/${userData.walletAddress}?set=set4`} alt="@shadcn" />
                 <AvatarFallback>SC</AvatarFallback>
               </Avatar>
             </Button>

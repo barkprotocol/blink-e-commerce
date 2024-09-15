@@ -9,17 +9,27 @@ import React, { useEffect } from "react";
 export default function Order() {
   const { connected, publicKey } = useWallet();
   const router = useRouter();
+
   useEffect(() => {
+    // Redirect to homepage if not connected
     if (!connected && !publicKey) {
       router.push("/");
     }
   }, [connected, publicKey, router]);
 
+  if (!publicKey && !connected) {
+    return (
+      <div>
+        <Navbar />
+        <Loading />
+      </div>
+    );
+  }
+
   return (
     <div>
       <Navbar />
-      {!publicKey && !connected && <Loading />}
-      {publicKey && connected && <BlinkRender address={publicKey.toString()} />}
+      <BlinkRender address={publicKey?.toString() ?? ""} />
     </div>
   );
 }

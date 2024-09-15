@@ -35,11 +35,13 @@ export const POST = async (
 ) => {
   try {
     const url = new URL(req.url);
-    console.log("inside post with product id", req.url);
-    console.log(params);
-    //get the product details
+    console.log("Processing POST request with URL:", req.url);
+    console.log("Request parameters:", params);
+
+    // Parse the request body
     const body: ActionPostRequest = await req.json();
-    console.log(body);
+    console.log("Request body:", body);
+
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
@@ -54,6 +56,7 @@ export const POST = async (
       );
     }
 
+    // Retrieve product details
     const product = await prisma.product.findUnique({
       where: {
         id: params.productid,
@@ -62,15 +65,17 @@ export const POST = async (
 
     if (!product) {
       return Response.json(
-        { message: "error while fetchingdata" } as ActionError,
+        { message: "Product not found" } as ActionError,
         {
           headers: ACTIONS_CORS_HEADERS,
         }
       );
     }
-    const connection = getConnection();
 
+    const connection = getConnection();
     const transaction = new Transaction();
+
+    // Add compute budget instruction
     transaction.add(
       ComputeBudgetProgram.setComputeUnitPrice({
         microLamports: 5000,
@@ -82,22 +87,20 @@ export const POST = async (
       })
     );
 
+    // Set fee payer and recent blockhash
     transaction.feePayer = account;
-    transaction.recentBlockhash = (
-      await connection.getLatestBlockhash()
-    ).blockhash;
+    transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
-    let next: NextActionLink = {
+    // Construct the next action link
+    const next: NextActionLink = {
       type: "inline",
       action: {
         icon:
           product?.imageUrl ||
           "https://avatars.githubusercontent.com/u/37742218?v=4",
-        description:
-          `${product?.description}, Availale stock ${product?.stock}` ||
-          "asdasdasd",
-        label: product?.label || "asdasdasd",
-        title: `${product?.title}` || "asdasdasdasdasd",
+        description: `Description: ${product?.description || "N/A"}, Available stock: ${product?.stock || "N/A"}`,
+        label: product?.label || "Product",
+        title: product?.title || "Product Title",
         type: "action",
         links: {
           actions: [
@@ -105,42 +108,12 @@ export const POST = async (
               label: `Purchase product for ${product?.price || "1"} SOL`,
               href: `/api/actions/${params.username}/product/${params.productid}/purchase?name={name}&email={email}&address={address}&state={state}&zipcode={zipcode}&city={city}&amount=${product.price}`,
               parameters: [
-                {
-                  name: "name",
-                  label: "enter your name",
-                  required: true,
-                  patternDescription: "Ex: JOEY",
-                },
-                {
-                  name: "email",
-                  label: "enter your email",
-                  required: true,
-                  patternDescription: "Ex: hello@xxx.com",
-                },
-                {
-                  name: "address",
-                  label: "enter your address",
-                  required: true,
-                  patternDescription: "Ex: woodland steeet",
-                },
-                {
-                  name: "state",
-                  label: "enter your state",
-                  required: true,
-                  patternDescription: "Ex: ohio",
-                },
-                {
-                  name: "city",
-                  label: "enter your city",
-                  required: true,
-                  patternDescription: "Ex: Cleveland",
-                },
-                {
-                  name: "zipcode",
-                  label: "enter your zip code",
-                  required: true,
-                  patternDescription: "Ex: 44129",
-                },
+                { name: "name", label: "Enter your name", required: true, patternDescription: "Ex: JOEY" },
+                { name: "email", label: "Enter your email", required: true, patternDescription: "Ex: hello@xxx.com" },
+                { name: "address", label: "Enter your address", required: true, patternDescription: "Ex: Woodland Street" },
+                { name: "state", label: "Enter your state", required: true, patternDescription: "Ex: Ohio" },
+                { name: "city", label: "Enter your city", required: true, patternDescription: "Ex: Cleveland" },
+                { name: "zipcode", label: "Enter your zip code", required: true, patternDescription: "Ex: 44129" },
               ],
             },
           ],
@@ -148,6 +121,7 @@ export const POST = async (
       },
     };
 
+    // Create the response payload
     const payload = await createPostResponse({
       fields: {
         transaction,
@@ -162,10 +136,11 @@ export const POST = async (
       headers: ACTIONS_CORS_HEADERS,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error processing request:", error);
     return Response.json(
       {
-        message: "Error",
+        message: "Error processing request",
+        details: error instanceof Error ? error.message : "Unknown error",
       } as ActionError,
       {
         headers: ACTIONS_CORS_HEADERS,
