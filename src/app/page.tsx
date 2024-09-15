@@ -11,46 +11,50 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
 export default function LandingPage() {
   return (
-    <div className={`min-h-screen bg-transparent text-gray-800 dark:text-gray-200 ${poppins.className}`}>
+    <div className={`min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 ${poppins.className}`}>
       <main className="container mx-auto px-4 py-16">
         <section className="text-center mb-16">
           <div className="flex items-center justify-center mb-4">
-            <img src="https://ucarecdn.com/b065ba1f-6279-4677-ae8f-0ebc1facb68d/bark_icon.png" alt="Buy in a Blink Logo" className="h-10" />
+            <img
+              src="https://ucarecdn.com/0c2a1b21-f836-4343-9d35-19386c7f7f4d/barkprotocoldark.svg"
+              alt="BARK - Buy in a Blink Logo"
+              className="h-12"
+            />
           </div>
           <h1 className="text-5xl font-bold mb-6 font-syne">Revolutionize Your E-commerce with Solana</h1>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Buy in a Blink empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="sm" className="bg-black text-white hover:bg-gray-800 px-6 py-3">
+            <Button size="sm" className="bg-gray-900 text-white hover:bg-gray-900 px-6 py-3">
               Create Your Store
             </Button>
-            <Button size="sm" variant="outline" className="border-gray-500 text-gray-500 hover:bg-gray-100 px-6 py-3">
+            <Button size="sm" variant="outline" className="border-gray-200 text-gray-900 hover:bg-gray-100 px-6 py-3">
               Learn More
             </Button>
           </div>
         </section>
 
-        <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-24">
           <FeatureCard
-            icon={<Zap className="h-10 w-10 text-sand-600" />}
+            icon={<Zap className="h-10 w-10 text-gray-400" />}
             title="Lightning Fast"
-            description="Experience instant transactions powered by Solana's high-speed blockchain."
+            description="Enjoy transactions that happen in the blink of an eye, thanks to Solana's high-speed blockchain."
           />
           <FeatureCard
-            icon={<ShoppingBag className="h-10 w-10 text-sand-600" />}
+            icon={<ShoppingBag className="h-10 w-10 text-gray-400" />}
             title="Custom Stores"
-            description="Build your unique online presence with personalized branding and product listings."
+            description="Create a distinctive online presence with custom branding and product listings tailored to your business."
           />
           <FeatureCard
-            icon={<Share2 className="h-10 w-10 text-sand-600" />}
+            icon={<Share2 className="h-10 w-10 text-gray-400" />}
             title="Social Sharing"
-            description="Amplify your reach by generating and sharing custom store links across social platforms."
+            description="Increase your store's visibility with easy-to-share custom links across all your social media platforms."
           />
           <FeatureCard
-            icon={<Rocket className="h-10 w-10 text-sand-600" />}
+            icon={<Rocket className="h-10 w-10 text-gray-400" />}
             title="Dynamic Previews"
-            description="Transform shared links into interactive shopping experiences, boosting engagement."
+            description="Turn shared links into engaging, interactive previews that captivate your audience and drive sales."
           />
         </section>
 
@@ -59,24 +63,24 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-sand-100 dark:bg-sand-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-sand-600">1</span>
+                <span className="text-2xl font-bold text-gray-400">1</span>
               </div>
               <h3 className="text-xl font-semibold mb-2 font-syne">Create Your Store</h3>
-              <p>Set up your custom store with just a few clicks and start adding your products.</p>
+              <p>Get started by setting up your store quickly and easily. Add your products and customize your brand.</p>
             </div>
             <div className="text-center">
               <div className="bg-sand-100 dark:bg-sand-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-sand-600">2</span>
+                <span className="text-2xl font-bold text-gray-400">2</span>
               </div>
               <h3 className="text-xl font-semibold mb-2 font-syne">Share Your Links</h3>
-              <p>Generate unique links for your store and products to share on social media.</p>
+              <p>Generate and share unique links for your store and products to reach a wider audience effortlessly.</p>
             </div>
             <div className="text-center">
               <div className="bg-sand-100 dark:bg-sand-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-sand-600">3</span>
+                <span className="text-2xl font-bold text-gray-400">3</span>
               </div>
               <h3 className="text-xl font-semibold mb-2 font-syne">Sell & Earn</h3>
-              <p>Start selling your products and receive payments instantly via Solana.</p>
+              <p>Start selling and receive instant payments through Solana, making your transactions seamless and efficient.</p>
             </div>
           </div>
         </section>
@@ -84,7 +88,7 @@ export default function LandingPage() {
         <section className="text-center mb-16">
           <h2 className="text-3xl font-semibold mb-6 font-syne">Ready to Get Started?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Join thousands of merchants already using Buy in a Blink to revolutionize their e-commerce experience.
+            Join thousands of merchants already transforming their e-commerce experiences with Buy in a Blink.
           </p>
           <Button size="sm" className="bg-black text-white hover:bg-gray-800 px-6 py-3">
             Create Your Store Now <ArrowRight className="ml-2 h-5 w-5" />
@@ -110,30 +114,31 @@ export default function LandingPage() {
           <div>
             <h3 className="font-semibold mb-4 font-syne">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" prefetch={false}>Home</Link></li>
-              <li><Link href="#" prefetch={false}>Features</Link></li>
-              <li><Link href="#" prefetch={false}>Pricing</Link></li>
-              <li><Link href="#" prefetch={false}>Contact</Link></li>
+              <li><Link href="/" prefetch={false}>Home</Link></li>
+              <li><Link href="/features" prefetch={false}>Features</Link></li>
+              <li><Link href="/pricing" prefetch={false}>Pricing</Link></li>
+              <li><Link href="/contact" prefetch={false}>Contact</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold mb-4 font-syne">Legal</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" prefetch={false}>Terms of Service</Link></li>
-              <li><Link href="#" prefetch={false}>Privacy Policy</Link></li>
-              <li><Link href="#" prefetch={false}>Cookie Policy</Link></li>
+              <li><Link href="/terms" prefetch={false}>Terms of Service</Link></li>
+              <li><Link href="/privacy" prefetch={false}>Privacy Policy</Link></li>
+              <li><Link href="/cookies" prefetch={false}>Cookie Policy</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold mb-4 font-syne">Connect</h3>
             <ul className="space-y-2 text-sm">
-              <li><Link href="#" prefetch={false}>Twitter</Link></li>
-              <li><Link href="#" prefetch={false}>Discord</Link></li>
-              <li><Link href="#" prefetch={false}>GitHub</Link></li>
+              <li><Link href="https://twitter.com" prefetch={false}>Twitter</Link></li>
+              <li><Link href="https://discord.com" prefetch={false}>Discord</Link></li>
+              <li><Link href="https://github.com" prefetch={false}>GitHub</Link></li>
             </ul>
           </div>
         </div>
         <div className="text-center mt-8 text-sm">
+          <p>&copy; {new Date().getFullYear()} BARK Protocol. All rights reserved.</p>
         </div>
       </footer>
     </div>
@@ -141,15 +146,15 @@ export default function LandingPage() {
 }
 
 const FeatureCard = ({ icon, title, description }) => (
-  <Card className="bg-sand-50 dark:bg-sand-900 shadow-md hover:shadow-lg transition-shadow">
+  <Card className="bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow p-6">
     <CardHeader>
-      <div className="flex justify-center items-center mb-4">
+      <div className="flex justify-center mb-4">
         {icon}
       </div>
-      <CardTitle className="text-xl font-semibold font-syne">{title}</CardTitle>
+      <CardTitle className="text-xl font-semibold mb-2 font-syne">{title}</CardTitle>
     </CardHeader>
     <CardContent>
-      <CardDescription className="text-gray-600 dark:text-gray-400">{description}</CardDescription>
+      <CardDescription className="text-gray-700 dark:text-gray-300">{description}</CardDescription>
     </CardContent>
   </Card>
 );

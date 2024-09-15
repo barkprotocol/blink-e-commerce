@@ -14,7 +14,7 @@ import { siteConfig } from "@/config/site";
 
 // Import fonts
 const inter = Inter({ subsets: ["latin"] });
-const syne = Syne({ subsets: ["latin"], weight: ["400", "700"] });
+const syne = Syne({ subsets: ["latin"], weight: ["500", "700"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
 
 export const viewport: Viewport = {
@@ -38,7 +38,7 @@ export default function RootLayout({
       <body className={cn(inter.className, "bg-gray-100 dark:bg-gray-900 min-h-screen")}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-screen flex-col relative">
-            <header className="container z-40 bg-background">
+            <header className="container z-50 bg-background">
               <div className="flex h-20 items-center justify-between py-6">
                 <MainNav items={marketingConfig.mainNav} />
                 <nav className="flex items-center gap-2">
@@ -65,11 +65,10 @@ export default function RootLayout({
               )}
             ></div>
 
-            <main className="flex-1 space-y-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+            <main className="flex-1 space-y-20 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               {children}
             </main>
 
-            <SiteFooter />
           </div>
         </ThemeProvider>
       </body>
