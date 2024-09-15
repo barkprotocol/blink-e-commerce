@@ -1,161 +1,164 @@
-import Link from "next/link";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Zap, ShoppingBag, Share2, Rocket, Moon, Sun, ArrowRight } from "lucide-react"
+import Link from "next/link"
 
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  CoinsIcon,
-  FileTextIcon,
-  ImageIcon,
-  ShieldIcon,
-  WalletIcon,
-} from "lucide-react";
-
-const actionCards: Array<{
-  title: string;
-  href: string;
-  description: React.ReactNode;
-  icon: React.ReactNode;
-}> = [
-  {
-    title: "On-chain Memo",
-    href: "/memo",
-    description: "Send a simple message on-chain using an SPL Memo.",
-    icon: <FileTextIcon className="size-12" />,
-  },
-  {
-    title: "Staking SOL",
-    href: "/stake",
-    description:
-      "Help secure the Solana network by staking SOL to a validator.",
-    icon: <ShieldIcon className="size-12" />,
-  },
-  {
-    title: "Transfer Native SOL",
-    href: "/transfer-sol",
-    description: "Easily transfer native SOL to any other Solana wallet.",
-    icon: <WalletIcon className="size-12" />,
-  },
-  // {
-  //   title: "Transfer SPL Tokens",
-  //   href: "/transfer-spl",
-  //   description: "Easily transfer SPL tokens to any other Solana wallet.",
-  //   icon: <CoinsIcon className="size-12" />,
-  // },
-  // {
-  //   title: "Mint an NFT",
-  //   href: "/mint-nft",
-  //   description:
-  //     "Allow anyone to claim a digital collectible from a Collection.",
-  //   icon: <ImageIcon className="size-12" />,
-  // },
-];
-
-export default async function Pages() {
+export default function LandingPage() {
   return (
-    <>
-      {/* <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:pt-32">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <Link
-            href={siteConfig.links.twitter}
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-            target="_blank"
-          >
-            Follow along on Twitter
-          </Link>
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            An example app built using Next.js 13 server components.
-          </h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            I&apos;m building a web app with Next.js 13 and open sourcing
-            everything. Follow along as we figure this out together.
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200">
+      <header className="container mx-auto px-4 py-8">
+        <nav className="flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <Zap className="h-8 w-8 text-sand-600" />
+            <span className="text-2xl font-bold">BARK</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost">Features</Button>
+            <Button variant="ghost">Pricing</Button>
+            <Button variant="ghost">Contact</Button>
+            <Button>Get Started</Button>
+          </div>
+        </nav>
+      </header>
+
+      <main className="container mx-auto px-4 py-16">
+        <section className="text-center mb-16">
+          <h1 className="text-5xl font-bold mb-6">Revolutionize Your E-commerce with Solana</h1>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Buy in a Blink empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
           </p>
-          <div className="space-x-4">
-            <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
-              Get Started
-            </Link>
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-            >
-              GitHub
-            </Link>
+          <div className="flex justify-center space-x-4">
+            <Button size="lg" className="bg-sand-600 text-white hover:bg-sand-700">
+              Create Your Store
+            </Button>
+            <Button size="lg" variant="outline">
+              Learn More
+            </Button>
+          </div>
+        </section>
+
+        <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          <FeatureCard
+            icon={<Zap className="h-10 w-10 text-sand-600" />}
+            title="Lightning Fast"
+            description="Experience instant transactions powered by Solana's high-speed blockchain."
+          />
+          <FeatureCard
+            icon={<ShoppingBag className="h-10 w-10 text-sand-600" />}
+            title="Custom Stores"
+            description="Build your unique online presence with personalized branding and product listings."
+          />
+          <FeatureCard
+            icon={<Share2 className="h-10 w-10 text-sand-600" />}
+            title="Social Sharing"
+            description="Amplify your reach by generating and sharing custom store links across social platforms."
+          />
+          <FeatureCard
+            icon={<Rocket className="h-10 w-10 text-sand-600" />}
+            title="Dynamic Previews"
+            description="Transform shared links into interactive shopping experiences, boosting engagement."
+          />
+        </section>
+
+        <section className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-16">
+          <h2 className="text-3xl font-semibold mb-6 text-center">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="bg-sand-100 dark:bg-sand-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-sand-600">1</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Create Your Store</h3>
+              <p>Set up your custom store with just a few clicks and start adding your products.</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-sand-100 dark:bg-sand-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-sand-600">2</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Share Your Links</h3>
+              <p>Generate unique links for your store and products to share on social media.</p>
+            </div>
+            <div className="text-center">
+              <div className="bg-sand-100 dark:bg-sand-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-sand-600">3</span>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Sell & Earn</h3>
+              <p>Start selling your products and receive payments instantly via Solana.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="text-center mb-16">
+          <h2 className="text-3xl font-semibold mb-6">Ready to Get Started?</h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">
+            Join thousands of merchants already using Buy in a Blink to revolutionize their e-commerce experience.
+          </p>
+          <Button size="lg" className="bg-sand-600 text-white hover:bg-sand-700">
+            Create Your Store Now <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </section>
+
+        <section className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+          <h2 className="text-3xl font-semibold mb-6 text-center">Stay Updated</h2>
+          <p className="text-center mb-6">Subscribe to our newsletter for the latest updates and features.</p>
+          <form className="flex max-w-md mx-auto">
+            <Input type="email" placeholder="Enter your email" className="mr-2" />
+            <Button type="submit">Subscribe</Button>
+          </form>
+        </section>
+      </main>
+
+      <footer className="container mx-auto px-4 py-8 mt-16 border-t border-gray-200 dark:border-gray-700">
+        <div className="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="font-semibold mb-4">Buy in a Blink</h3>
+            <p className="text-sm">Revolutionizing e-commerce with Solana blockchain technology.</p>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="#" prefetch={false}>Home</Link></li>
+              <li><Link href="#" prefetch={false}>Features</Link></li>
+              <li><Link href="#" prefetch={false}>Pricing</Link></li>
+              <li><Link href="#" prefetch={false}>Contact</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="#" prefetch={false}>Terms of Service</Link></li>
+              <li><Link href="#" prefetch={false}>Privacy Policy</Link></li>
+              <li><Link href="#" prefetch={false}>Cookie Policy</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold mb-4">Connect</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="#" prefetch={false}>Twitter</Link></li>
+              <li><Link href="#" prefetch={false}>Discord</Link></li>
+              <li><Link href="#" prefetch={false}>GitHub</Link></li>
+            </ul>
           </div>
         </div>
-      </section> */}
-
-      <section
-        id="features"
-        className={
-          "container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
-        }
-      >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            Example Solana Actions
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            This project contains examples code snippets for creating Solana
-            Actions.
-          </p>
+        <div className="mt-8 text-center text-sm">
         </div>
+      </footer>
+    </div>
+  )
+}
 
-        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-          {actionCards.map((item, key) => (
-            <Link key={key} href={item.href} className="group">
-              <Card className="group-hover:border-primary">
-                <CardHeader>
-                  <CardTitle className="space-y-3">
-                    {item.icon}
-                    <span className="block font-bold group-hover:text-pretty">
-                      {item.title}
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <p className="text-muted-foreground">{item.description}</p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mx-auto text-center md:max-w-[58rem]">
-          <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            You can find the{" "}
-            <Button variant={"link"} asChild>
-              <Link href={siteConfig.links.github} target="_blank">
-                full source code
-              </Link>
-            </Button>{" "}
-            for this entire repo on GitHub.
-          </p>
-        </div>
-      </section>
-
-      {/* <section id="open-source" className="container py-8 md:py-12 lg:py-24">
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-            Proudly Open Source
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Taxonomy is open source and powered by open source software. <br />{" "}
-            The code is available on{" "}
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-4"
-            >
-              GitHub
-            </Link>
-            .{" "}
-          </p>
-        </div>
-      </section> */}
-    </>
-  );
+function FeatureCard({ icon, title, description }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center space-x-2">
+          {icon}
+          <span>{title}</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <CardDescription>{description}</CardDescription>
+      </CardContent>
+    </Card>
+  )
 }
