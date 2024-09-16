@@ -1,14 +1,27 @@
-# BARK | Blink E-Commerce Platform
+# BARK E-Commerce Platform
 
 ## Overview
 
-The BARK - Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores. With features for store setup, product management, link sharing, and secure payment handling, the platform ensures a smooth experience for both buyers and sellers.
+The BARK E-Commerce Platform offers a seamless way to create and manage online stores with integrated Solana wallet connections. The platform ensures secure payments, dynamic previews, and smooth store setup for merchants.
+
+![BARK E-Commerce Platform](.github/assets/screenshot.png)
 
 ## Features
 
-- **Store Setup**: Create and manage your store, add products, and configure settings.
+- **Store Setup**: Easily set up and manage your store, add products, and configure payment and shipping settings.
 - **Sharing Store Links**: Generate custom links and share them on social media with dynamic previews.
-- **Payment Handling**: Secure payments with an escrow system and automatic refunds.
+- **Solana Wallet Integration**: Securely connect Solana wallets like Phantom, Solflare, and Backpack to make payments and manage digital assets.
+- **Dynamic Store Links**: Share unique store links on social media with previews for a streamlined shopping experience.
+- **Payment Handling**: Secure payments via an escrow system with automatic refunds in case of disputes or cancellations.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm or yarn
+- Prisma
+- Solana wallet adapters (`Phantom`, `Solflare`, `Backpack`)
 
 ## Getting Started
 
