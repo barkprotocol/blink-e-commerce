@@ -2,9 +2,9 @@
 
 ## Overview
 
-The BARK E-Commerce Platform offers a seamless way to create and manage online stores with integrated Solana wallet connections. The platform ensures secure payments, dynamic previews, and smooth store setup for merchants.
+The BARK E-Commerce Platform offers a seamless way to create and manage online stores with integrated Solana wallet connections. Our platform ensures secure payments, dynamic previews, and smooth store setup for merchants, leveraging the power of blockchain technology.
 
-![BARK E-Commerce Platform](.github/assets/screenshot.png)
+![BARK E-Commerce Platform](.github/assets/webui.png)
 
 ## Features
 
@@ -18,88 +18,24 @@ The BARK E-Commerce Platform offers a seamless way to create and manage online s
 
 ### Prerequisites
 
-- Node.js
-- npm or yarn
-- Prisma
-- Solana wallet adapters (`Phantom`, `Solflare`, `Backpack`)
-
-## Getting Started
-
-### 1. Store Setup
-
-#### Sign Up
-1. **Register**: Go to the registration page and provide your email, password, and store name.
-2. **Verification**: Verify your email address to activate your account.
-
-#### Add Products
-1. **Product Details**:
-   - **Images**: Upload product images.
-   - **Titles**: Enter product titles.
-   - **Descriptions**: Provide detailed descriptions.
-   - **Prices**: Set product prices.
-   - **Stock Quantities**: Manage inventory.
-
-2. **Product Categories**: Organize products into categories.
-
-#### Configure Settings
-1. **Payment Options**: Integrate payment gateways (e.g., credit/debit cards, PayPal).
-2. **Shipping Methods**: Set up shipping rates and delivery options.
-3. **Tax Settings**: Configure tax rates based on regions.
-
-#### Save and Publish
-1. **Save Draft**: Save your store setup as a draft.
-2. **Publish**: Publish your store to make it live.
-
-### 2. Sharing Store Links
-
-#### Generate Custom Link
-1. **Unique Link**: Create a unique URL for your store.
-2. **Link Customization**: Optionally customize the link.
-
-#### Share on Social Media
-1. **Platforms**: Share your store link on X, Facebook, Instagram, etc.
-2. **Call to Action**: Use compelling calls to action.
-
-#### Dynamic Preview
-1. **Link Preview**: Ensure the link displays a preview of your store.
-2. **Shop Directly**: Users can shop directly from the preview.
-
-### 3. Payment Handling
-
-#### Escrow System
-1. **Payment Processing**: Payments are held in escrow until completed.
-2. **Buyer Protection**: Ensures buyers receive their products before funds are released.
-3. **Seller Protection**: Protects sellers against fraud.
-
-#### Refunds
-1. **Automatic Refunds**: Process refunds automatically for cancellations or returns.
-2. **Dispute Resolution**: Mechanism for resolving disputes.
-
-## Development
-
-### Prerequisites
-
-- Node.js
-- npm, yarn, or pnpm
-- Prisma
+- Node.js (v14 or later)
+- npm (v6 or later) or yarn (v1.22 or later)
+- Prisma CLI
+- Solana wallet (Phantom, Solflare, or Backpack)
 
 ### Installation
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/barkprotocol/bark-ecommerce.git
-   cd bark-ecommerce
+   git clone https://github.com/barkprotocol/blink-commerce.git
+   cd blink-commerce
    ```
 
 2. **Install Dependencies**:
    ```bash
-   npm install
-   # or
-   yarn install
-   # or
    pnpm install
    # or
-   bun add
+   yarn install
    ```
 
 3. **Configure Environment Variables**:
@@ -121,45 +57,110 @@ The BARK E-Commerce Platform offers a seamless way to create and manage online s
    npm run dev
    # or
    yarn dev
-   # or
-   pnpm dev
-   # or
-   bun dev
    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Learn More
+## Usage Guide
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Store Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Sign Up
+1. Navigate to the registration page and provide your email, password, and store name.
+2. Verify your email address to activate your account.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Add Products
+1. Log in to your dashboard.
+2. Click on "Add Product" and fill in the details:
+   - Upload product images
+   - Enter product titles and descriptions
+   - Set prices and manage stock quantities
+   - Assign products to categories
 
-## Deploy on Vercel
+#### Configure Settings
+1. Go to the "Store Settings" section.
+2. Set up payment options, shipping methods, and tax settings.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+#### Publish Your Store
+1. Review your store setup.
+2. Click "Publish" to make your store live.
 
-# Prisma DB
+### 2. Sharing Store Links
 
-1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
-2. Set the provider of the datasource block in schema.prisma to match your database: postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb.
-3. Run npx prisma db pull to turn your database schema into a Prisma schema.
-4. Run npx prisma generate to generate the Prisma Client. You can then start querying your database.
-5. Tip: Explore how you can extend the ORM with scalable connection pooling, global caching, and real-time database events. Read: https://pris.ly/cli/beyond-orm
+1. From your dashboard, click on "Generate Store Link".
+2. Customize your store URL if desired.
+3. Use the provided social media buttons to share your store link on various platforms.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 3. Payment Handling
+
+- Payments are automatically processed through our secure escrow system.
+- Funds are held until the order is confirmed as completed.
+- In case of disputes or cancellations, refunds are processed automatically.
+
+## Development
+
+### Tech Stack
+
+- Next.js 13+
+- TypeScript
+- Prisma (ORM)
+- Tailwind CSS
+- Solana Web3.js
+
+### Folder Structure
+
+```
+bark-ecommerce/
+├── app/
+│   ├── actions.json/
+│   │   └── route.ts
+│   ├── api/
+│   ├── components/
+│   ├── layout.tsx
+│   └── page.tsx
+├── prisma/
+│   └── schema.prisma
+├── public/
+├── styles/
+├── .env
+├── next.config.js
+├── package.json
+└── README.md
+```
+
+### API Routes
+
+Our API routes are defined in `app/actions.json/route.ts`. They handle:
+
+- Store creation and management
+- Product CRUD operations
+- Custom link generation
+- Payment processing
+
+For detailed API documentation, please refer to our [API Documentation](docs/API.md).
 
 ## Contributing
 
-1. **Fork the Repository**: Create your own fork of the repository.
-2. **Create a Branch**: Create a new branch for your feature or bug fix.
-3. **Commit Changes**: Commit your changes with descriptive messages.
-4. **Push Changes**: Push your branch to your fork.
-5. **Submit a Pull Request**: Open a pull request with a description of your changes.
+We welcome contributions to the BARK E-Commerce Platform! Please follow these steps:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you encounter any issues or have questions, please file an issue on our [GitHub issue tracker](https://github.com/barkprotocol/bark-ecommerce/issues) or contact our support team at support@barkprotocol.com.
+
+## Acknowledgements
+
+- [Solana](https://solana.com/) for providing the blockchain infrastructure
+- [Next.js](https://nextjs.org/) for the fantastic React framework
+- [Prisma](https://www.prisma.io/) for the powerful ORM

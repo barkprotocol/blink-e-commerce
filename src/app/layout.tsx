@@ -1,101 +1,55 @@
-import type { Metadata, Viewport } from "next";
-import { Inter, Syne, Poppins } from "next/font/google";
-import "./globals.css";
-import Link from "next/link";
+import './globals.css'
+import { Syne, Poppins, Inter } from 'next/font/google'
+import Header from '@/components/ui/layout/header'
+import Footer from '@/components/ui/layout/footer'
+import WalletProvider from '@/components/providers/wallet-provider'
+import { ThemeProvider } from '@/components/theme-provider'
+import { ErrorBoundary } from '@/components/error-boundary'
 
-import { marketingConfig } from "@/config/marketing";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { MainNav } from "@/components/main-nav";
-import { SiteFooter } from "@/components/site-footer";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeModeToggle } from "@/components/theme-mode-toggle";
-import { siteConfig } from "@/config/site";
+const syne = Syne({ subsets: ['latin'], variable: '--font-syne' })
+const poppins = Poppins({ 
+  subsets: ['latin'], 
+  weight: ['300', '400', '600'], 
+  variable: '--font-poppins',
+  display: 'swap',
+})
+const inter = Inter({ 
+  subsets: ['latin'], 
+  variable: '--font-inter',
+  display: 'swap',
+})
 
-// Import fonts
-const inter = Inter({ subsets: ["latin"] });
-const syne = Syne({ subsets: ["latin"], weight: ["500", "700"] });
-const poppins = Poppins({ subsets: ["latin"], weight: ["300", "400", "600"] });
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
-
-export const metadata: Metadata = {
-  title: "BARK - BLINK COMMERCE",
-  description:
-    "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
-  // Add more SEO metadata
-  openGraph: {
-    title: "BARK - BLINK COMMERCE",
-    description:
-      "The Blink E-Commerce Platform provides a streamlined solution for creating and managing online stores.",
-    type: "website",
-    url: "https://blinkcommerce.app", // Replace with your actual URL
-    images: [
-      {
-        url: "https://ucarecdn.com/92d4d7ea-f9d8-429c-bf68-6f3bc69c1c02/goldenshoppingcart.jpg", // Replace with actual image URL
-        width: 1200,
-        height: 630,
-        alt: "BARK Commerce",
-      },
-    ],
+export const metadata = {
+  title: 'BARK - Revolutionize Your E-commerce with Solana',
+  description: 'Buy in a Blink empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
+  themeColor: '#F5F1EE',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
-};
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" className={`${syne.className} ${poppins.className}`}>
-      <body
-        className={cn(
-          inter.className,
-          "bg-gray-100 dark:bg-gray-900 min-h-screen"
-        )}
-      >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="flex min-h-screen flex-col relative">
-            <header className="container z-50 bg-background">
-              <div className="flex h-20 items-center justify-between py-6">
-                <MainNav items={marketingConfig.mainNav} />
-                <nav className="flex items-center gap-2">
-                  <Button asChild>
-                    <Link
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      href={siteConfig.links.docs}
-                      className={cn(
-                        buttonVariants({ variant: "secondary", size: "sm" }),
-                        "px-4"
-                      )}
-                    >
-                      Connect Wallet
-                    </Link>
-                  </Button>
-                  <ThemeModeToggle />
-                </nav>
+    <html lang="en" className={`${syne.variable} ${poppins.variable} ${inter.variable}`}>
+      <body className="bg-background text-foreground">
+        <ErrorBoundary>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <WalletProvider>
+              <div className="flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">{children}</main>
+                <Footer />
               </div>
-            </header>
-
-            <div
-              className={cn(
-                "absolute inset-0 -z-10 bg-gray-100 dark:bg-gray-900"
-              )}
-            ></div>
-
-            <main className="flex-1 space-y-20 container mx-auto">
-              {children}
-            </main>
-
-            <SiteFooter />
-          </div>
-        </ThemeProvider>
+            </WalletProvider>
+          </ThemeProvider>
+        </ErrorBoundary>
       </body>
     </html>
-  );
+  )
 }

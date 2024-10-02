@@ -1,20 +1,20 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // Enable dark mode with the 'class' strategy
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
-  prefix: "", // Optional: Add a prefix if needed for your project
+  prefix: "",
   theme: {
     container: {
-      center: true, // Center the container
-      padding: "2rem", // Apply padding
+      center: true,
+      padding: "2rem",
       screens: {
-        "2xl": "1400px", // Max width for 2xl screens
+        "2xl": "1400px",
       },
     },
     extend: {
@@ -56,9 +56,28 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        sand: {
+          "100": "#F5F0ED",
+          "200": "#EBE1DB",
+          "300": "#E0D2C9",
+          "400": "#D0BFB4",
+          "500": "#C0AC9F",
+          "600": "#B09A8A",
+          "700": "#A08775",
+          "800": "#907560",
+          "900": "#80624B",
+        },
       },
       borderRadius: {
-        lg: "var(--radius)", // Use CSS variable for border-radius
+        lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
@@ -76,11 +95,14 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        syne: ["var(--font-syne)"],
+        poppins: ["var(--font-poppins)"],
+        inter: ["var(--font-inter)"],
+      },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"), // Add Tailwind CSS animate plugin for custom animations
-  ],
+  plugins: [require("tailwindcss-animate")],
 };
 
 export default config;
