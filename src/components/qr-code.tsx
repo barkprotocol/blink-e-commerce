@@ -1,7 +1,7 @@
 "use client";
 
 import { createSolanaQR, encodeURL } from "@solana/actions";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ComponentProps = {
   url: string | URL;
@@ -15,27 +15,42 @@ export function SolanaQRCode({
   url,
   className,
   background = "transparent",
-  color,
+  color = "#000000",
   size = 400,
 }: ComponentProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
-    const encodedUrl = encodeURL(
-      {
-        link: new URL(url, window.location.href),
-      },
-      "solana:",
-    );
+    const generateQR = async () => {
+      try {
+        const encodedUrl = encodeURL(
+          {
+            link: new URL(url, window.location.href),
+          },
+          "solana:"
+        );
 
-    console.log("encodedUrl:", encodedUrl.toString());
+        console.log("encodedUrl:", encodedUrl.toString());
 
-    const qr = createSolanaQR(encodedUrl, size, background, color);
+        const qr = createSolanaQR(encodedUrl, size, background, color);
 
-    if (ref.current && !ref.current.innerHTML) {
-      qr.append(ref.current);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [url]);
+        if (ref.current) {
+          ref.current.innerHTML = ''; // Clear previous content
+          qr.append(ref.current);
+        }
+      } catch (err) {
+        console.error("Error generating Solana QR code:", err);
+        setError("Failed to generate QR code. Please try again.");
+      }
+    };
 
-  return <div ref={ref} className={className} />;
+    generateQR();
+  }, [url, size, background, color]);
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  return <div ref={ref} className={className} aria-label="Solana QR Code" />;
 }

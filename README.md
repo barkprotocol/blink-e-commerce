@@ -4,7 +4,9 @@
 
 The BARK E-Commerce Platform offers a seamless way to create and manage online stores with integrated Solana wallet connections. Our platform ensures secure payments, dynamic previews, and smooth store setup for merchants, leveraging the power of blockchain technology.
 
-![BARK E-Commerce Platform](.github/assets/webui.png)
+![BARK Commerce Web UI](.github/assets/webui.png)
+
+![Merchant - Create Shop](.github/assets/create-shop.png)!
 
 ## Features
 
@@ -13,6 +15,102 @@ The BARK E-Commerce Platform offers a seamless way to create and manage online s
 - **Solana Wallet Integration**: Securely connect Solana wallets like Phantom, Solflare, and Backpack to make payments and manage digital assets.
 - **Dynamic Store Links**: Share unique store links on social media with previews for a streamlined shopping experience.
 - **Payment Handling**: Secure payments via an escrow system with automatic refunds in case of disputes or cancellations.
+
+```commerce
+src/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   ├── register/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   ├── (shop)/
+│   │   ├── products/
+│   │   │   ├── [id]/
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── categories/
+│   │   │   ├── [category]/
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── cart/
+│   │   │   └── page.tsx
+│   │   ├── checkout/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   ├── (merchant)/
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── products/
+│   │   │   ├── create/
+│   │   │   │   └── page.tsx
+│   │   │   ├── edit/
+│   │   │   │   ├── [id]/
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── orders/
+│   │   │   └── page.tsx
+│   │   ├── settings/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   ├── api/
+│   │   ├── auth/
+│   │   │   └── [...nextauth].ts
+│   │   ├── products/
+│   │   │   └── route.ts
+│   │   ├── orders/
+│   │   │   └── route.ts
+│   │   └── webhook/
+│   │       └── route.ts
+│   ├── about/
+│   │   └── page.tsx
+│   ├── contact/
+│   │   └── page.tsx
+│   ├── page.tsx
+│   └── layout.tsx
+├── components/
+│   ├── ui/
+│   │   ├── button.tsx
+│   │   ├── input.tsx
+│   │   ├── card.tsx
+│   │   └── ...
+│   ├── layout/
+│   │   ├── header.tsx
+│   │   ├── footer.tsx
+│   │   ├── main-header.tsx
+│   │   └── shop-header.tsx
+│   ├── products/
+│   │   ├── product-card.tsx
+│   │   ├── product-list.tsx
+│   │   └── product-details.tsx
+│   ├── cart/
+│   │   ├── cart-item.tsx
+│   │   └── cart-summary.tsx
+│   ├── checkout/
+│   │   ├── checkout-form.tsx
+│   │   └── payment-methods.tsx
+│   └── merchant/
+│       ├── product-form.tsx
+│       └── order-list.tsx
+├── lib/
+│   ├── utils.ts
+│   ├── api.ts
+│   └── db.ts
+├── hooks/
+│   ├── use-cart.ts
+│   ├── use-auth.ts
+│   └── use-products.ts
+├── styles/
+│   └── globals.css
+├── types/
+│   ├── product.ts
+│   ├── order.ts
+│   └── user.ts
+└── config/
+    └── site.ts
+```
 
 ## Getting Started
 
@@ -107,27 +205,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Tailwind CSS
 - Solana Web3.js
 
-### Folder Structure
-
-```
-bark-ecommerce/
-├── app/
-│   ├── actions.json/
-│   │   └── route.ts
-│   ├── api/
-│   ├── components/
-│   ├── layout.tsx
-│   └── page.tsx
-├── prisma/
-│   └── schema.prisma
-├── public/
-├── styles/
-├── .env
-├── next.config.js
-├── package.json
-└── README.md
-```
-
 ### API Routes
 
 Our API routes are defined in `app/actions.json/route.ts`. They handle:
@@ -155,9 +232,13 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## ToDo
 
-If you encounter any issues or have questions, please file an issue on our [GitHub issue tracker](https://github.com/barkprotocol/bark-ecommerce/issues) or contact our support team at support@barkprotocol.com.
+- Modular and need to refactored
+- Merchant Dashboard
+- User Account
+- Solana wallet login
+- Hide main-navbar when create shop is activated
 
 ## Acknowledgements
 

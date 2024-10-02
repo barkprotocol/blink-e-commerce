@@ -1,10 +1,11 @@
-'use client'
+'use client';
 
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Twitter, Instagram, Github } from 'lucide-react'
+import { Twitter, Instagram, Github, ExternalLink } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,7 +29,7 @@ const itemVariants = {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#F5F1EE] dark:bg-gray-900 border-t border-[#E5DCD5] dark:border-gray-700 py-12">
+    <footer className="bg-[#F5F1EE] to-white dark:from-gray-900 dark:to-gray-800 border-t border-[#E5DCD5] dark:border-gray-700 py-12">
       <motion.div 
         className="container mx-auto px-4"
         variants={containerVariants}
@@ -46,6 +47,9 @@ export default function Footer() {
             height={48}
             className="mx-auto mb-4"
           />
+          <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+            Revolutionizing e-commerce with decentralized solutions on the Solana blockchain.
+          </p>
         </motion.div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-8">
           <FooterColumn title="Quick Links" links={[
@@ -61,7 +65,7 @@ export default function Footer() {
           ]} />
           <FooterColumn title="Community" links={[
             { href: "https://twitter.com/bark_protocol", label: "Twitter", icon: <Twitter size={16} /> },
-            { href: "https://medium.com/@barkprotocol", label: "Medium" },
+            { href: "https://medium.com/@barkprotocol", label: "Medium", icon: <ExternalLink size={16} /> },
             { href: "https://instagram.com/bark.protocol", label: "Instagram", icon: <Instagram size={16} /> },
           ]} />
           <FooterColumn title="Support" links={[
@@ -74,7 +78,27 @@ export default function Footer() {
           className="text-center text-sm text-gray-600 dark:text-gray-400 font-inter"
           variants={itemVariants}
         >
-          © {new Date().getFullYear()} BARK Protocol. All rights reserved.
+          <p className="mb-4">© {new Date().getFullYear()} BARK Protocol. All rights reserved.</p>
+          <div className="flex justify-center space-x-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="https://twitter.com/bark_protocol">
+                <Twitter size={20} />
+                <span className="sr-only">Twitter</span>
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="https://instagram.com/bark.protocol">
+                <Instagram size={20} />
+                <span className="sr-only">Instagram</span>
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="https://github.com/barkprotocol">
+                <Github size={20} />
+                <span className="sr-only">GitHub</span>
+              </Link>
+            </Button>
+          </div>
         </motion.div>
       </motion.div>
     </footer>
@@ -101,7 +125,7 @@ function FooterColumn({ title, links }: FooterColumnProps) {
           <li key={index}>
             <Link 
               href={link.href} 
-              className="text-gray-600 hover:text-[#D0BFB4] dark:text-gray-400 dark:hover:text-[#E5DCD5] transition-colors duration-200 font-poppins flex items-center justify-center"
+              className="text-gray-600 hover:text-[#8A7A6D] dark:text-gray-400 dark:hover:text-[#E5DCD5] transition-colors duration-200 font-poppins flex items-center justify-center"
             >
               {link.icon && <span className="mr-2">{link.icon}</span>}
               {link.label}

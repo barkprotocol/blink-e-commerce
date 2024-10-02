@@ -1,117 +1,63 @@
-'use client'
+'use client';
 
 import React from 'react'
-import { Button } from '@/components/ui/button'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+import { ArrowRight, ShoppingBag, Info } from 'lucide-react'
 
 export default function Hero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  }
-
   return (
-    <section className="relative overflow-hidden bg-[#F5F1EE] dark:bg-gray-900 py-20 sm:py-32">
-      <div className="container mx-auto px-4">
-        <motion.div 
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className="text-center lg:text-left">
-            <motion.h1 
-              className="text-4xl sm:text-5xl font-bold mb-6 font-syne text-gray-800 dark:text-white"
-              variants={itemVariants}
-            >
-              Revolutionize Your E-commerce with Solana
-            </motion.h1>
-            <motion.p 
-              className="text-xl mb-8 max-w-2xl mx-auto lg:mx-0 font-poppins text-gray-600 dark:text-gray-300"
-              variants={itemVariants}
-            >
-              Buy in a Blink empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
-            </motion.p>
-            <motion.div 
-              className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4"
-              variants={itemVariants}
-            >
-              <Button 
-                size="lg" 
-                className="bg-[#D0BFB4] text-gray-800 hover:bg-[#C1AEA1] transition-all duration-300 font-inter transform hover:scale-105"
-                asChild
-              >
-                <Link href="/pages/create-store/">Create Your Store</Link>
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-[#D0BFB4] text-gray-800 hover:bg-[#F5F1EE] dark:border-[#A69589] dark:text-[#D0BFB4] dark:hover:bg-gray-800 transition-all duration-300 font-inter transform hover:scale-105"
-                asChild
-              >
-                <Link href="/pages/products">Explore Products</Link>
-              </Button>
-            </motion.div>
-          </div>
-          <motion.div
-            variants={itemVariants}
-            className="relative h-[400px] sm:h-[500px] rounded-lg overflow-hidden shadow-2xl"
+    <section className="relative bg-gradient-to-br from-[bg-[#F5F1EE]] via-[#E5D9D0] to-[#F5F1EE]] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 relative z-10">
+        <div className="text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
           >
-            <Image
-              src="https://ucarecdn.com/750e9f1b-edfc-4ac8-a5b4-3286c7de98d6/barkmascottrasparentbg.png"
-              alt="BARK mascot representing our e-commerce platform"
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority
-              className="rounded-lg object-contain"
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#D0BFB4]/20 to-gray-400/20 mix-blend-multiply" />
+            Revolutionize Your E-commerce with{' '}
+            <span className="text-[#8A7A6D] bg-clip-text text-transparent bg-gradient-to-r from-[#A18C7F] to-[#8A7A6D]">
+              Solana
+            </span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-xl md:text-2xl text-gray-700 mb-8 max-w-3xl mx-auto"
+          >
+            Lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <Button asChild size="lg" className="bg-[#8A7A6D] text-white hover:bg-[#76685C] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <Link href="/create-store" className="flex items-center">
+                <ShoppingBag className="mr-2 h-5 w-5" />
+                Create Your Shop
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-2 border-[#8A7A6D] text-[#8A7A6D] hover:bg-[#8A7A6D] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <Link href="/about" className="flex items-center">
+                <Info className="mr-2 h-5 w-5" />
+                Learn More
+              </Link>
+            </Button>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0" aria-hidden="true">
-        <motion.div 
-          className="absolute -top-1/2 -left-1/4 w-1/2 h-1/2 bg-[#E5DCD5] dark:bg-[#8C7D73] rounded-full opacity-20 blur-3xl"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, 30, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div 
-          className="absolute -bottom-1/2 -right-1/4 w-1/2 h-1/2 bg-gray-200 dark:bg-gray-700 rounded-full opacity-20 blur-3xl"
-          animate={{
-            x: [0, -50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      </div>
+      <div 
+        className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-15 z-0"
+        style={{ backgroundSize: '100px 100px' }}
+        aria-hidden="true"
+      ></div>
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent z-10"></div>
     </section>
   )
 }

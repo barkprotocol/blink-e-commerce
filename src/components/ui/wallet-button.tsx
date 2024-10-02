@@ -3,8 +3,8 @@
 import React from 'react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useWalletModal } from '@solana/wallet-adapter-react-ui'
+import { Wallet } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Loader2, Wallet } from 'lucide-react'
 
 interface WalletButtonProps {
   className?: string
@@ -15,13 +15,7 @@ const WalletButton: React.FC<WalletButtonProps> = ({ className = '' }) => {
   const { setVisible } = useWalletModal()
 
   const handleClick = () => {
-    if (connected) {
-      // If connected, we'll show the modal which has a disconnect option
-      setVisible(true)
-    } else {
-      // If not connected, we'll open the connect modal
-      setVisible(true)
-    }
+    setVisible(true)
   }
 
   const getButtonText = () => {
@@ -34,14 +28,10 @@ const WalletButton: React.FC<WalletButtonProps> = ({ className = '' }) => {
   return (
     <Button
       onClick={handleClick}
-      className={`bg-[#D0BFB4] text-gray-800 hover:bg-[#C1AEA1] transition-colors duration-300 font-inter flex items-center justify-center ${className}`}
+      className={`bg-background hover:bg-muted text-foreground rounded-md px-6 py-2 text-sm font-medium transition-all duration-300 border border-input hover:border-accent flex items-center ${className}`}
       disabled={connecting || disconnecting}
     >
-      {connecting || disconnecting ? (
-        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      ) : (
-        <Wallet className="mr-2 h-4 w-4" />
-      )}
+      <Wallet className="mr-2 h-4 w-4" />
       {getButtonText()}
     </Button>
   )

@@ -6,34 +6,38 @@ import CTA from '@/components/ui/layout/cta'
 import Newsletter from '@/components/ui/layout/newsletter'
 
 export const metadata: Metadata = {
-  title: 'Blink Protocol - Revolutionize Your E-commerce with Solana',
-  description: 'BARKs Blink Protocol empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.',
+  title: 'BARK Protocol - Revolutionize Your E-commerce with Solana',
+  description: 'BARK Protocol empowers merchants with lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.',
   keywords: ['Solana', 'E-commerce', 'Blockchain', 'Fast transactions', 'Custom stores'],
   openGraph: {
     title: 'Buy in a Blink - Revolutionize Your E-commerce with Solana',
     description: 'Lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.',
     type: 'website',
-    url: 'https://blinkprotocol.app',
+    url: 'https://barkprotocol.app',
     images: [
       {
-        url: 'https://blinkprotocol.app/og-image.jpg',
+        url: 'https://brkkprotocol.app/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Blink Protocol',
+        alt: 'BARK Protocol',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blink Protocol - Revolutionize Your E-commerce with Solana',
+    title: 'BARK Protocol - Revolutionize Your E-commerce with Solana',
     description: 'Lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.',
-    images: ['https://blinkprotocol.app/twitter-image.jpg'],
+    images: ['https://barkprotocol.app/twitter-image.jpg'],
   },
+  robots: 'index, follow',
+  viewport: 'width=device-width, initial-scale=1',
+  themeColor: '#F5F1EE',
 }
 
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen">
+      <h1 className="sr-only">BARK Protocol - Revolutionize Your E-commerce with Solana</h1>
       <Hero />
       <About />
       <Features />

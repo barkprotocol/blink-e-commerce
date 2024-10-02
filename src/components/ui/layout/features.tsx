@@ -1,119 +1,80 @@
-'use client'
+'use client';
 
 import React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Zap, ShoppingBag, Share2, Rocket, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { CheckCircle } from 'lucide-react'
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3
-    }
-  }
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
-}
+const features = [
+  'Solana-powered transactions',
+  'Custom store builder',
+  'Social media integration',
+  'Analytics dashboard',
+  'Multi-currency support',
+  'Mobile-optimized stores',
+]
 
 export default function Features() {
   return (
-    <section className="bg-[#F5F1EE] dark:bg-gray-900 py-20">
-      <div className="container mx-auto px-4">
-        <motion.div 
-          className="text-center mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.h2 
-            className="text-4xl font-bold mb-4 font-syne text-gray-800 dark:text-white"
-            variants={itemVariants}
-          >
-            Our Features
-          </motion.h2>
-          <motion.p
-            className="text-xl text-gray-600 dark:text-gray-300 font-poppins max-w-2xl mx-auto"
-            variants={itemVariants}
-          >
-            Discover the powerful tools that make Buy in a Blink the ultimate e-commerce solution on Solana.
-          </motion.p>
-        </motion.div>
-        <motion.div 
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <FeatureCard
-            icon={<Zap className="h-8 w-8 text-[#D0BFB4]" />}
-            title="Lightning Fast"
-            description="Enjoy transactions that happen in the blink of an eye, thanks to Solana's high-speed blockchain."
-          />
-          <FeatureCard
-            icon={<ShoppingBag className="h-8 w-8 text-[#D0BFB4]" />}
-            title="Custom Stores"
-            description="Create a distinctive online presence with custom branding and product listings tailored to your business."
-          />
-          <FeatureCard
-            icon={<Share2 className="h-8 w-8 text-[#D0BFB4]" />}
-            title="Social Sharing"
-            description="Increase your store's visibility with easy-to-share custom links across all your social media platforms."
-          />
-          <FeatureCard
-            icon={<Rocket className="h-8 w-8 text-[#D0BFB4]" />}
-            title="Dynamic Previews"
-            description="Turn shared links into engaging, interactive previews that captivate your audience and drive sales."
-          />
-        </motion.div>
+    <section className="bg-white py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+          <div className="mb-12 lg:mb-0">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
+            >
+              Powerful Features for Modern E-commerce
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-xl text-gray-600 mb-8"
+            >
+              Blink Protocol offers a comprehensive suite of features designed to elevate your online business.
+            </motion.p>
+            <motion.ul 
+              className="space-y-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              {features.map((feature, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex items-center space-x-3"
+                >
+                  <CheckCircle className="h-6 w-6 text-[#8A7A6D] flex-shrink-0" />
+                  <span className="text-gray-700">{feature}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </div>
+          <div className="mt-10 lg:mt-0">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <Image
+                src="https://ucarecdn.com/0e6bcb9f-f4a7-4745-b3ac-4ae2f8a034c6/barkswaphoodiewhite.png"
+                alt="Blink Protocol Features"
+                width={600}
+                height={400}
+                className="rounded-lg shadow-xl"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#8A7A6D] to-transparent opacity-20 rounded-lg"></div>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
-  )
-}
-
-interface FeatureCardProps {
-  icon: React.ReactNode
-  title: string
-  description: string
-}
-
-function FeatureCard({ icon, title, description }: FeatureCardProps) {
-  return (
-    <motion.div variants={itemVariants}>
-      <Card className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-[#E5DCD5] dark:border-gray-700 h-full flex flex-col">
-        <CardHeader className="bg-[#F5F1EE] dark:bg-gray-700 p-6 flex-grow">
-          <motion.div 
-            className="flex items-center justify-center mb-6 bg-white dark:bg-gray-600 rounded-full w-20 h-20 mx-auto shadow-md"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {icon}
-          </motion.div>
-          <CardTitle className="text-2xl font-bold font-syne text-gray-800 dark:text-white text-center mb-2">{title}</CardTitle>
-          <CardDescription className="text-sm text-gray-600 dark:text-gray-300 font-poppins text-center">
-            {description}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6 bg-white dark:bg-gray-800">
-          <motion.div 
-            className="text-sm text-[#D0BFB4] dark:text-[#E5DCD5] font-inter text-center hover:underline cursor-pointer flex items-center justify-center"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Learn More
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </motion.div>
-        </CardContent>
-      </Card>
-    </motion.div>
   )
 }

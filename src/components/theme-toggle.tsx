@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icons } from "@/components/icons";
 
-export function ThemeModeToggle() {
-  const { setTheme } = useTheme();
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -25,7 +25,7 @@ export function ThemeModeToggle() {
           aria-label="Toggle theme"
         >
           <Icons.sun className="absolute transition-transform dark:rotate-90 dark:scale-0" />
-          <Icons.moon className="absolute transition-transform dark:rotate-0 dark:scale-100" />
+          <Icons.moon className="absolute transition-transform rotate-90 scale-0 dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
@@ -33,14 +33,23 @@ export function ThemeModeToggle() {
         <DropdownMenuItem onClick={() => setTheme("light")}>
           <Icons.sun className="mr-2 h-4 w-4" aria-hidden="true" />
           <span>Light</span>
+          {theme === "light" && (
+            <Icons.check className="ml-auto h-4 w-4" aria-hidden="true" />
+          )}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           <Icons.moon className="mr-2 h-4 w-4" aria-hidden="true" />
           <span>Dark</span>
+          {theme === "dark" && (
+            <Icons.check className="ml-auto h-4 w-4" aria-hidden="true" />
+          )}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <Icons.laptop className="mr-2 h-4 w-4" aria-hidden="true" />
           <span>System</span>
+          {theme === "system" && (
+            <Icons.check className="ml-auto h-4 w-4" aria-hidden="true" />
+          )}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

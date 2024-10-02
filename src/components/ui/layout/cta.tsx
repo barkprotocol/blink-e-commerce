@@ -2,43 +2,38 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import { motion } from 'framer-motion'
 
 export default function CTA() {
   return (
-    <section className="bg-[#F5F1EE] dark:bg-gray-800 py-20">
-      <div className="container mx-auto px-4 text-center">
-        <motion.h2 
-          className="text-4xl sm:text-5xl font-bold mb-6 font-syne text-gray-800 dark:text-white"
-          initial={{ opacity: 0, y: -20 }}
+    <section className="bg-[#F5F1EE] py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
         >
-          Ready to Get Started?
+          Ready to Transform Your E-commerce Experience?
         </motion.h2>
-        <motion.p 
-          className="text-xl mb-8 max-w-2xl mx-auto font-poppins text-gray-600 dark:text-gray-300"
-          initial={{ opacity: 0, y: -10 }}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto"
         >
-          Join thousands of merchants already transforming their e-commerce experiences with Buy in a Blink.
+          Join the Blink Protocol community and start selling with the power of Solana blockchain today.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <Button 
-            size="lg" 
-            className="bg-[#D0BFB4] text-gray-800 hover:bg-[#C1AEA1] transition-all duration-300 font-inter shadow-md hover:shadow-lg hover:-translate-y-1 group"
-            asChild
-          >
-            <Link href="/create-store">
-              Create Your Store Now 
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+          <Button asChild size="lg" className="bg-gray-900 text-white hover:bg-gray-800">
+            <Link href="/create-shop">
+              Get Started Now <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </motion.div>
