@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Hero from '@/components/ui/layout/hero'
 import About from '@/components/ui/layout/about'
 import Features from '@/components/ui/layout/features'
 import CTA from '@/components/ui/layout/cta'
@@ -37,8 +36,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen">
-      <h1 className="sr-only">BARK Protocol - Revolutionize Your E-commerce with Solana</h1>
-      <Hero />
       <About />
       <Features />
       <CTA />

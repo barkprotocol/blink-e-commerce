@@ -1,155 +1,63 @@
-'use client'
+'use client';
 
 import React from 'react'
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
-import { Menu, PlusCircle } from 'lucide-react'
-
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet'
-import { ThemeToggle } from '@/components/theme-toggle'
-import WalletButton from '@/components/ui/wallet-button'
+import { ArrowRight, ShoppingBag, Info } from 'lucide-react'
 
-const logoUrl = "https://ucarecdn.com/f242e5dc-8813-47b4-af80-6e6dd43945a9/barkicon.png"
-
-const MainHeader = () => {
+export default function Hero() {
   return (
-    <header className="bg-background border-b border-border">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
-          <Image src={logoUrl} alt="BARK COMMERCE Logo" width={32} height={32} />
-          <div className="flex items-baseline">
-            <span className="text-2xl font-bold text-primary font-syne">BARK</span>
-            <span className="text-2xl font-light text-muted-foreground ml-1 font-syne">COMMERCE</span>
-          </div>
-        </Link>
-        <nav className="hidden md:flex space-x-6 absolute left-1/2 transform -translate-x-1/2">
-          <Link href="/" className="text-foreground hover:text-primary transition-colors duration-200">
-            Home
-          </Link>
-          <Link href="/pages/shop" className="text-foreground hover:text-primary transition-colors duration-200">
-            Shop
-          </Link>
-          <Link href="/about" className="text-foreground hover:text-primary transition-colors duration-200">
-            About
-          </Link>
-          <Link href="/contact" className="text-foreground hover:text-primary transition-colors duration-200">
-            Contact
-          </Link>
-        </nav>
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" size="sm" className="hidden md:flex items-center">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Create Store
-          </Button>
-          <WalletButton />
-          <ThemeToggle />
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <nav className="flex flex-col space-y-4">
-                <Link href="/" className="text-foreground hover:text-primary transition-colors duration-200">
-                  Home
-                </Link>
-                <Link href="/pages/shop" className="text-foreground hover:text-primary transition-colors duration-200">
-                  Shop
-                </Link>
-                <Link href="/about" className="text-foreground hover:text-primary transition-colors duration-200">
-                  About
-                </Link>
-                <Link href="/contact" className="text-foreground hover:text-primary transition-colors duration-200">
-                  Contact
-                </Link>
-                <Button variant="outline" size="sm" className="flex items-center justify-center">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Create Store
-                </Button>
-              </nav>
-            </SheetContent>
-          </Sheet>
+    <section className="relative bg-[#F5F1EE] overflow-hidden py-24 md:py-32">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1E1E1E] mb-6 font-syne"
+          >
+            Revolutionize Your E-commerce with{' '}
+            <span className="text-[#8A7A6D] bg-clip-text text-transparent bg-gradient-to-r from-[#A18C7F] to-[#8A7A6D]">
+              Solana
+            </span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-xl md:text-2xl text-[#1E1E1E] mb-8 max-w-3xl mx-auto font-poppins"
+          >
+            Lightning-fast transactions, custom stores, and seamless social sharing on the Solana blockchain.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4"
+          >
+            <Button asChild size="lg" className="bg-[#8A7A6D] text-white hover:bg-[#76685C] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-poppins">
+              <Link href="/create-store" className="flex items-center">
+                <ShoppingBag className="mr-2 h-5 w-5" />
+                Create Your Shop
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-2 border-[#8A7A6D] text-[#8A7A6D] hover:bg-[#8A7A6D] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-poppins">
+              <Link href="/about" className="flex items-center">
+                <Info className="mr-2 h-5 w-5" />
+                Learn More
+              </Link>
+            </Button>
+          </motion.div>
         </div>
       </div>
-    </header>
-  )
-}
-
-const ShopHeader = () => {
-  return (
-    <header className="bg-background border-b border-border">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/merchant/dashboard" className="flex items-center space-x-2">
-          <Image src={logoUrl} alt="BARK COMMERCE Merchant Dashboard Logo" width={32} height={32} />
-          <div className="flex items-baseline">
-            <span className="text-2xl font-bold text-primary font-syne">BARK</span>
-            <span className="text-2xl font-light text-muted-foreground ml-1 font-syne">COMMERCE</span>
-          </div>
-        </Link>
-        <nav className="hidden md:flex space-x-6 absolute left-1/2 transform -translate-x-1/2">
-          <Link href="/merchant/products" className="text-foreground hover:text-primary transition-colors duration-200">
-            Products
-          </Link>
-          <Link href="/merchant/orders" className="text-foreground hover:text-primary transition-colors duration-200">
-            Orders
-          </Link>
-          <Link href="/merchant/analytics" className="text-foreground hover:text-primary transition-colors duration-200">
-            Analytics
-          </Link>
-        </nav>
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" size="sm" className="hidden md:flex items-center">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Add Product
-          </Button>
-          <WalletButton />
-          <ThemeToggle />
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="md:hidden">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <nav className="flex flex-col space-y-4">
-                <Link href="/merchant/products" className="text-foreground hover:text-primary transition-colors duration-200">
-                  Products
-                </Link>
-                <Link href="/merchant/orders" className="text-foreground hover:text-primary transition-colors duration-200">
-                  Orders
-                </Link>
-                <Link href="/merchant/analytics" className="text-foreground hover:text-primary transition-colors duration-200">
-                  Analytics
-                </Link>
-                <Button variant="outline" size="sm" className="flex items-center justify-center">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Add Product
-                </Button>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </header>
-  )
-}
-
-export default function Header() {
-  const pathname = usePathname()
-  const isCreateShop = pathname === '/create-shop'
-
-  return (
-    <>
-      {isCreateShop ? <ShopHeader /> : <MainHeader />}
-    </>
+      <div 
+        className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-15 z-0"
+        style={{ backgroundSize: '100px 100px' }}
+        aria-hidden="true"
+      ></div>
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#F5F1EE] to-transparent z-10"></div>
+    </section>
   )
 }

@@ -5,11 +5,11 @@
 @layer base {
   :root {
     /* Light Mode Colors */
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
+    --background: 34 20 15; /* Updated to match #F5F1EE */
+    --foreground: 30 30 30; /* Updated to match #1E1E1E */
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card: 34 20 15;
+    --card-foreground: 30 30 30;
 
     --primary: 210 40% 15%;
     --primary-foreground: 210 20% 95%;
@@ -81,7 +81,7 @@
   
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-poppins), system-ui, sans-serif; /* Updated to use Poppins as primary font */
     line-height: 1.6;
   }
 
@@ -110,7 +110,7 @@
   }
 
   button, input, select, textarea {
-    @apply rounded-md border border-border p-2 font-inter;
+    @apply rounded-md border border-border p-2 font-poppins; /* Updated to use Poppins */
   }
 
   button {
